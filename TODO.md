@@ -1,16 +1,24 @@
 TODO
 Now:
-    - (done) Add the missing chapter 11 to COA.
+    - (Done): all Plan.md tasks (restructure, MAE placeholders, hover tooltips, CH17 toggle)
 
 Long-Term:
+    - Fix text based diagrams.
     - Navigation Bar (Hamburger order) (Not sure yet)
-    - A new index.html links to more subjects
-    - Change the current index.html to CEA(Subject code)-COA(Book code).html 
-    - Templates/Placeholders for different subjects
     - Move styles to its own css file
-    - Organize subjects
+    - English/Vietnamese (Maybe not if too big of a scale)
     - Improve UI/UX
         - Navigation buttons within page
         - Light/Dark Mode
 
     - Intergate with the SSA project ??? maybe
+
+--- Copilot's Ideas (let's talk about these) ---
+    - Chapter search bar: a live filter on CEA/COA.html that searches chapter titles + part names as you type
+    - Study/quiz mode: use the 257 tooltip definitions as flashcard prompts — flip card, guess the term
+    - Reading progress bar: thin accent-color bar that grows as you scroll down each chapter page
+    - Bookmark system: star/unstar chapters, persisted in localStorage — starred chapters float to top
+    - Chapter completion tracker: "Mark as studied" button per chapter, progress % shown on CEA/COA.html hero
+    - Floating in-page TOC: sidebar that shows section headings for current chapter, highlights active section on scroll
+    - Print / PDF stylesheet: @media print rules so chapters export cleanly as study handouts
+    - PWA / offline support: service worker + manifest so the site works offline (great for exam cramming with no wifi)

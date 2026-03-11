@@ -98,6 +98,11 @@
   .df-r{color:var(--accent);font-weight:600;}
   .df-a{color:var(--text-dim);}
   .footer{margin-top:20px;border-top:1px solid var(--border);padding-top:10px;display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);}
+
+/* ── Keyword Tooltips ── */
+.tt{position:relative;border-bottom:1px dotted var(--accent,#58a6ff);cursor:help;display:inline;}
+.tt::after{content:attr(data-t);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1c2128;color:#e6edf3;padding:6px 10px;border-radius:6px;font-size:11px;font-family:'IBM Plex Sans',sans-serif;font-weight:400;line-height:1.4;white-space:normal;width:220px;z-index:200;opacity:0;pointer-events:none;transition:opacity .18s ease;border:1px solid #30363d;box-shadow:0 4px 12px rgba(0,0,0,.5);}
+.tt:hover::after{opacity:1;}
 </style>
 </head>
 <body>
@@ -125,7 +130,7 @@
   <div class="card green">
     <div class="card-header"><div class="dot"></div><h3>§14.1 Processor Organization</h3></div>
     <div class="card-body">
-      <p>The processor must: fetch instructions, interpret/decode, fetch data, process data (ALU), write results. Requires small internal memory — <strong>registers</strong> — to hold state between steps.</p>
+      <p>The processor must: <span class="tt" data-t="Pipeline stage that reads the next instruction from memory into the IR using PC">fetch</span> instructions, interpret/<span class="tt" data-t="Pipeline stage that interprets the opcode and reads source register operands">decode</span>, fetch data, process data (<span class="tt" data-t="Arithmetic Logic Unit — executes arithmetic and logic operations on register operands">ALU</span>), write results. Requires small internal memory — <strong>registers</strong> — to hold state between steps.</p>
       <div class="label">Key Internal Components (Fig 14.1 / 14.2)</div>
       <ul class="items">
         <li><strong>ALU:</strong> performs all arithmetic and logic operations on data</li>
@@ -179,12 +184,12 @@
     <div class="card-body">
       <div class="label">4 Essential Registers</div>
       <div class="reg-row">
-        <div class="reg-box r-ctrl">PC — Program Counter</div>
-        <div class="reg-box r-ctrl">IR — Instruction Register</div>
+        <div class="reg-box r-ctrl"><span class="tt" data-t="Program Counter — holds the memory address of the next instruction to be fetched">PC</span> — Program Counter</div>
+        <div class="reg-box r-ctrl"><span class="tt" data-t="Instruction Register — holds the instruction currently being decoded and executed">IR</span> — Instruction Register</div>
       </div>
       <div class="reg-row">
-        <div class="reg-box r-ctrl">MAR — Memory Address Reg</div>
-        <div class="reg-box r-ctrl">MBR — Memory Buffer Reg</div>
+        <div class="reg-box r-ctrl"><span class="tt" data-t="Memory Address Register — latches the address for the current memory read or write">MAR</span> — Memory Address Reg</div>
+        <div class="reg-box r-ctrl"><span class="tt" data-t="Memory Buffer Register — holds the data word just read from or about to be written to memory">MBR</span> — Memory Buffer Reg</div>
       </div>
       <ul class="items" style="margin-top:6px;">
         <li><strong>PC:</strong> address of next instruction; auto-incremented after each fetch; modified by branches/jumps</li>
@@ -291,7 +296,7 @@
         <li>Buffer-to-buffer overhead + latch delay per stage</li>
         <li>Control logic complexity grows enormously with stage count</li>
         <li>Branch flushes negate gains from deeper pipelines</li>
-        <li>Logically dependent sequential instructions stall often at more stages</li>
+        <li>Logically dependent sequential instructions <span class="tt" data-t="One or more idle pipeline cycles inserted when a hazard prevents normal instruction flow">stall</span> often at more stages</li>
       </ul>
     </div>
   </div>
@@ -373,7 +378,7 @@
     <div class="card-header"><div class="dot"></div><h3>Branch Strategies — All 5 Approaches</h3></div>
     <div class="card-body">
       <div class="label">1. Multiple Streams</div>
-      <p>Replicate early pipeline stages; fetch <em>both</em> branch target and sequential instruction simultaneously. Drawbacks: contention for registers/memory; nested branches multiply needed streams. (IBM 370/168, IBM 3033)</p>
+      <p>Replicate early pipeline stages; fetch <em>both</em> <span class="tt" data-t="Address in memory where execution continues after a taken branch instruction">branch target</span> and sequential instruction simultaneously. Drawbacks: contention for registers/memory; nested branches multiply needed streams. (IBM 370/168, IBM 3033)</p>
 
       <div class="label">2. Prefetch Branch Target</div>
       <p>On recognizing a conditional branch, prefetch the target address into a buffer alongside the sequential path. If branch taken → target already ready. (IBM 360/91)</p>
@@ -403,7 +408,7 @@
   <div class="card orange">
     <div class="card-header"><div class="dot"></div><h3>Intel 80486 — 5-Stage Pipeline</h3></div>
     <div class="card-body">
-      <p>Classic real-world pipelined processor. Sustains ~1 instruction per clock cycle.</p>
+      <p>Classic real-world pipelined processor. Sustains ~1 instruction per <span class="tt" data-t="Smallest CPU time unit; one pipeline stage advances per clock cycle">clock cycle</span>.</p>
       <div class="label">5 Stages (§14.4)</div>
       <ol class="steps">
         <li><strong>Fetch:</strong> independently fills two 16-byte prefetch buffers from cache or external memory; ~5 instructions per 16-byte load; variable-length instructions (1–11 bytes)</li>
@@ -530,7 +535,7 @@
         <li>Clear IF and TF (disable further INTR and single-step)</li>
         <li>Push CS + EIP to stack</li>
         <li>If error code → push error code</li>
-        <li>Load interrupt vector into CS:EIP → execute ISR</li>
+        <li>Load interrupt vector into CS:EIP → <span class="tt" data-t="Pipeline stage that performs the ALU operation or computes a branch/memory address">execute</span> ISR</li>
       </ol>
       <p style="margin-top:6px;font-size:12px;"><strong>IRET</strong> restores all saved values; resumes from point of interrupt. Priority: Class 1 (traps on prev instr) &gt; Class 2 (external) &gt; Class 3 (fetch faults) &gt; Class 4 (decode faults) &gt; Class 5 (execute faults).</p>
     </div>
@@ -546,7 +551,7 @@
     <div class="card-body">
       <div class="label">ARM RISC Characteristics</div>
       <ul class="items">
-        <li>Moderate uniform register file (more than some CISC, fewer than many RISC)</li>
+        <li>Moderate uniform <span class="tt" data-t="On-chip array of general-purpose registers acting as operand sources and destinations">register file</span> (more than some CISC, fewer than many RISC)</li>
         <li><strong>Load/Store model:</strong> only LDR/STR access memory; all other operations use registers only</li>
         <li>Fixed 32-bit instructions (ARM standard) / 16-bit (Thumb)</li>
         <li>Barrel Shifter: shifts/rotates one source register Rm inline, within the same instruction cycle → increases ALU power without extra instructions</li>
@@ -623,6 +628,7 @@
 </div>
 
 <div class="footer">
+  <a href="../COA.html" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);text-decoration:none;">← Back to Menu</a>
   <span>Computer Organization &amp; Architecture, 11th Edition — Chapter 14: Processor Structure and Function (pp. 488–530)</span>
   <span>Study reference — content extracted directly from textbook</span>
 </div>

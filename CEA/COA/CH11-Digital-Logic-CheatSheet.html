@@ -451,6 +451,11 @@
     code, .mono, .bin-block, .rule, .formula { background: #f5f5f5; color: #333 !important; }
     .rule, .formula { border-color: #999; }
   }
+
+/* ── Keyword Tooltips ── */
+.tt{position:relative;border-bottom:1px dotted var(--accent,#58a6ff);cursor:help;display:inline;}
+.tt::after{content:attr(data-t);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1c2128;color:#e6edf3;padding:6px 10px;border-radius:6px;font-size:11px;font-family:'IBM Plex Sans',sans-serif;font-weight:400;line-height:1.4;white-space:normal;width:220px;z-index:200;opacity:0;pointer-events:none;transition:opacity .18s ease;border:1px solid #30363d;box-shadow:0 4px 12px rgba(0,0,0,.5);}
+.tt:hover::after{opacity:1;}
 </style>
 </head>
 <body>
@@ -487,7 +492,7 @@
   <div class="card blue col-span-2">
     <div class="card-header"><div class="dot"></div><h3>Boolean Algebra — Postulates &amp; Theorems</h3></div>
     <div class="card-body">
-      <p>Boolean algebra is a two-valued (0/1) algebraic system used to describe, simplify, and implement digital logic circuits. Variables take only values 0 or 1; three basic operations: AND (·), OR (+), NOT (').</p>
+      <p><span class="tt" data-t="Mathematical system with AND, OR, NOT operations used to analyse and simplify logic circuits">Boolean algebra</span> is a two-valued (0/1) algebraic system used to describe, simplify, and implement digital logic circuits. Variables take only values 0 or 1; three basic operations: AND (·), OR (+), NOT (').</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div>
           <div class="label">Identity &amp; Null Laws</div>
@@ -532,7 +537,7 @@
           <tr><td class="zero">AND</td><td>Y = A·B</td><td>All inputs = 1</td><td>Conjunction</td></tr>
           <tr><td class="pos">OR</td><td>Y = A+B</td><td>Any input = 1</td><td>Disjunction</td></tr>
           <tr><td class="neg">NOT</td><td>Y = A'</td><td>Input = 0</td><td>Inversion</td></tr>
-          <tr><td class="neg">NAND</td><td>Y = (A·B)'</td><td>Any input = 0</td><td>Universal gate</td></tr>
+          <tr><td class="neg">NAND</td><td>Y = (A·B)'</td><td>Any input = 0</td><td>Universal <span class="tt" data-t="Basic digital logic element implementing a Boolean function (AND, OR, NOT, NAND, NOR, XOR)">gate</span></td></tr>
           <tr><td class="pos">NOR</td><td>Y = (A+B)'</td><td>All inputs = 0</td><td>Universal gate</td></tr>
           <tr><td class="special">XOR</td><td>Y = A⊕B</td><td>Odd # of 1s</td><td>Parity / diff</td></tr>
           <tr><td class="pos">XNOR</td><td>Y = (A⊕B)'</td><td>Even # of 1s</td><td>Equality check</td></tr>
@@ -641,14 +646,14 @@
   <div class="card orange">
     <div class="card-header"><div class="dot"></div><h3>Combinational Circuits — Overview</h3></div>
     <div class="card-body">
-      <p>A <strong>combinational circuit</strong> has outputs that depend <em>only</em> on current inputs — no memory, no feedback, no clock needed.</p>
+      <p>A <strong><span class="tt" data-t="Logic network whose output is a function of only the current inputs, with no memory">combinational circuit</span></strong> has outputs that depend <em>only</em> on current inputs — no memory, no feedback, no <span class="tt" data-t="Periodic square-wave signal that synchronises state changes in sequential circuits">clock</span> needed.</p>
       <div class="label">Key Types</div>
       <ul class="items">
-        <li><strong>Adders</strong> — half adder, full adder, RCA, CLA</li>
+        <li><strong>Adders</strong> — <span class="tt" data-t="Combinational circuit computing the single-bit sum and carry-out of two input bits">half adder</span>, <span class="tt" data-t="Combinational circuit producing sum and carry-out from two data inputs plus a carry-in">full adder</span>, RCA, CLA</li>
         <li><strong>Multiplexers</strong> — data selector (MUX)</li>
         <li><strong>Demultiplexers</strong> — data distributor (DEMUX)</li>
         <li><strong>Decoders</strong> — n → 2ⁿ, one-hot output</li>
-        <li><strong>Encoders</strong> — 2ⁿ → n, priority encoder</li>
+        <li><strong>Encoders</strong> — 2ⁿ → n, priority <span class="tt" data-t="Converts 2ⁿ one-hot inputs to an n-bit binary code">encoder</span></li>
         <li><strong>Comparators</strong> — A=B, A>B, A&lt;B outputs</li>
         <li><strong>ALU</strong> — combines add, sub, AND, OR, shift</li>
         <li><strong>Parity generators/checkers</strong> — XOR trees</li>
@@ -656,7 +661,7 @@
       <div class="label">Design Process</div>
       <ol class="steps">
         <li>Define inputs, outputs, and behavior in words</li>
-        <li>Construct truth table for all input combinations</li>
+        <li>Construct <span class="tt" data-t="Tabular listing of all input combinations and their corresponding output values for a logic function">truth table</span> for all input combinations</li>
         <li>Write Boolean expression (SOP or POS)</li>
         <li>Simplify using Boolean algebra or K-map</li>
         <li>Implement with gates; verify timing constraints</li>
@@ -741,7 +746,7 @@
   <div class="card blue">
     <div class="card-header"><div class="dot"></div><h3>Multiplexers (MUX) &amp; Demultiplexers</h3></div>
     <div class="card-body">
-      <p>A <strong>multiplexer</strong> selects one of 2ⁿ data inputs and routes it to a single output, controlled by n select lines.</p>
+      <p>A <strong><span class="tt" data-t="Combinational circuit selecting one of N inputs to route to a single output based on select lines">multiplexer</span></strong> selects one of 2ⁿ data inputs and routes it to a single output, controlled by n select lines.</p>
       <div class="label">2-to-1 MUX</div>
       <div class="formula">Y = S'·I₀ + S·I₁</div>
       <table class="tbl">
@@ -779,7 +784,7 @@
   <div class="card yellow">
     <div class="card-header"><div class="dot"></div><h3>Decoders &amp; Encoders</h3></div>
     <div class="card-body">
-      <p>A <strong>decoder</strong> converts an n-bit binary code to one of 2ⁿ unique output lines (one-hot). Exactly one output is active at a time.</p>
+      <p>A <strong><span class="tt" data-t="Converts n-bit binary input to assert exactly one of up to 2ⁿ output lines">decoder</span></strong> converts an n-bit binary code to one of 2ⁿ unique output lines (one-hot). Exactly one output is active at a time.</p>
       <div class="label">2-to-4 Decoder Truth Table</div>
       <table class="tbl">
         <thead><tr><th>A₁</th><th>A₀</th><th>Y₀</th><th>Y₁</th><th>Y₂</th><th>Y₃</th></tr></thead>
@@ -848,7 +853,7 @@
       <ul class="items">
         <li>Programmable AND plane, fixed OR plane</li>
         <li>Simpler to program than PLA; most widely used in practice</li>
-        <li>Some PALs include registered (flip-flop) outputs for sequential logic</li>
+        <li>Some PALs include registered (<span class="tt" data-t="Bistable sequential element that stores one bit of state, clocked by a clock edge">flip-flop</span>) outputs for sequential logic</li>
       </ul>
       <div class="label">FPGA (Field-Programmable Gate Array)</div>
       <ul class="items">
@@ -868,11 +873,11 @@
   <div class="card orange">
     <div class="card-header"><div class="dot"></div><h3>Sequential Circuits — Overview</h3></div>
     <div class="card-body">
-      <p>A <strong>sequential circuit</strong> has outputs that depend on <em>both</em> current inputs and the circuit's past history (internal state). State is stored in flip-flops.</p>
+      <p>A <strong><span class="tt" data-t="Logic network whose output depends on current inputs and stored internal state">sequential circuit</span></strong> has outputs that depend on <em>both</em> current inputs and the circuit's past history (internal state). State is stored in flip-flops.</p>
       <div class="label">Key Characteristics</div>
       <ul class="items">
         <li>Requires a <strong>clock signal</strong> for synchronization</li>
-        <li><strong>State register</strong>: flip-flops hold current state Q</li>
+        <li><strong>State <span class="tt" data-t="Set of flip-flops storing a multi-bit value; may include load-enable and shift operations">register</span></strong>: flip-flops hold current state Q</li>
         <li><strong>Next-state logic</strong>: combinational circuit computes Q_next from Q and inputs</li>
         <li><strong>Output logic</strong>: combinational circuit computes outputs</li>
       </ul>
@@ -944,7 +949,7 @@
           <ul class="items">
             <li>Most common FF in registers</li>
             <li>Output = input delayed by 1 clock cycle</li>
-            <li>Transparent latch: D latch (level-triggered)</li>
+            <li>Transparent <span class="tt" data-t="Level-sensitive storage element that is transparent (passes input) while its enable is high">latch</span>: D latch (level-triggered)</li>
             <li>Edge-triggered: captures on ↑ or ↓ edge only</li>
           </ul>
         </div>
@@ -987,7 +992,7 @@
           <div class="formula">Char. Eq: Q(t+1) = T ⊕ Q(t)</div>
           <div class="label">Key Properties</div>
           <ul class="items">
-            <li>Natural counter element</li>
+            <li>Natural <span class="tt" data-t="Sequential circuit cycling through a sequence of binary states on each clock edge">counter</span> element</li>
             <li>T=1 always: free-running toggle (÷2 frequency)</li>
             <li>Used in ripple &amp; synchronous counters</li>
           </ul>
@@ -1139,6 +1144,7 @@
 
 <!-- FOOTER -->
 <div class="footer">
+  <a href="../COA.html" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);text-decoration:none;">← Back to Menu</a>
   <span>CH11 · Digital Logic</span>
   <span>Computer Organization &amp; Architecture · Stallings</span>
 </div>

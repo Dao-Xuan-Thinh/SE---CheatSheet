@@ -67,6 +67,11 @@
   .hier-meta{font-size:10px;color:var(--text-muted);min-width:160px;text-align:right;font-family:'IBM Plex Mono',monospace;}
   .footer{margin-top:20px;border-top:1px solid var(--border);padding-top:10px;display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);}
   @media print{body{background:white;color:black;} .card{border:1px solid #ccc;break-inside:avoid;}}
+
+/* ── Keyword Tooltips ── */
+.tt{position:relative;border-bottom:1px dotted var(--accent,#58a6ff);cursor:help;display:inline;}
+.tt::after{content:attr(data-t);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1c2128;color:#e6edf3;padding:6px 10px;border-radius:6px;font-size:11px;font-family:'IBM Plex Sans',sans-serif;font-weight:400;line-height:1.4;white-space:normal;width:220px;z-index:200;opacity:0;pointer-events:none;transition:opacity .18s ease;border:1px solid #30363d;box-shadow:0 4px 12px rgba(0,0,0,.5);}
+.tt:hover::after{opacity:1;}
 </style>
 </head>
 <body>
@@ -178,7 +183,7 @@
       <div class="label">Two Types of Locality</div>
       <table class="tbl">
         <tr><th>Type</th><th>Definition</th><th>Exploited By</th></tr>
-        <tr><td style="color:var(--accent);">Temporal</td><td>Recently accessed locations likely accessed again soon</td><td>Keep in cache (LRU, etc.)</td></tr>
+        <tr><td style="color:var(--accent);">Temporal</td><td>Recently accessed locations likely accessed again soon</td><td>Keep in cache (<span class="tt" data-t="Least Recently Used — eviction policy replacing the line unused for the longest time">LRU</span>, etc.)</td></tr>
         <tr><td style="color:var(--accent2);">Spatial</td><td>Locations near a referenced location likely accessed soon</td><td>Larger cache lines; prefetching</td></tr>
       </table>
       <div class="label">Why Locality Exists</div>
@@ -217,17 +222,17 @@
       <table class="tbl">
         <tr><th>Term</th><th>Definition</th></tr>
         <tr><td style="color:var(--accent4);">Block</td><td>Fixed-size unit of main memory (K words); M = 2ⁿ/K total blocks</td></tr>
-        <tr><td style="color:var(--accent);">Line</td><td>Cache storage unit; holds K words of data + tag + control bits</td></tr>
+        <tr><td style="color:var(--accent);">Line</td><td>Cache storage unit; holds K words of data + <span class="tt" data-t="Upper bits of a memory address stored in cache to identify which block occupies a slot">tag</span> + control bits</td></tr>
         <tr><td style="color:var(--accent3);">Tag</td><td>Portion of memory address identifying which block occupies a line</td></tr>
         <tr><td style="color:var(--accent5);">Line size</td><td>Length of line excluding tag and control bits</td></tr>
-        <tr><td style="color:var(--accent2);">Dirty bit</td><td>Control bit; 1 = line modified since loaded (write-back)</td></tr>
+        <tr><td style="color:var(--accent2);">Dirty bit</td><td>Control bit; 1 = line modified since loaded (<span class="tt" data-t="Modified cache lines are written to main memory only when evicted (dirty bit)">write-back</span>)</td></tr>
       </table>
       <div class="label">Cache Read Operation Flow</div>
       <ol class="steps">
         <li>CPU generates Read Address (RA)</li>
         <li>Check if block containing RA is in cache</li>
         <li><strong>HIT:</strong> Deliver word directly to CPU (cache-speed access)</li>
-        <li><strong>MISS:</strong> Access main memory → load block into cache line</li>
+        <li><strong>MISS:</strong> Access main memory → load block into <span class="tt" data-t="Fixed-size block (e.g. 64 B) transferred atomically between cache and main memory">cache line</span></li>
         <li>Deliver word from cache line to CPU</li>
       </ol>
       <div class="tip"><div class="t-title">Hardware Transparency</div>Cache is <strong>invisible</strong> to programmer and typically to the OS. It is a hardware staging device between main memory and processor registers.</div>
@@ -253,7 +258,7 @@
       <div class="formula">T_s = H·T₁ + (1-H)·(T₁ + T₂)
     = T₁ + (1-H)·T₂
 
-// Assumes miss → T₁ + T₂ (load to cache then deliver)</div>
+// Assumes <span class="tt" data-t="Cache miss — requested data is absent from cache; main memory must be fetched">miss</span> → T₁ + T₂ (load to cache then deliver)</div>
       <div class="label">Alternative Form — Sequential Load</div>
       <div class="formula">T_avg = h·T_c + (1-h)·T_m
 
@@ -265,7 +270,7 @@
 // r = T₂/T₁; on-chip cache: r ≈ 25–50
 // off-chip L2 cache: r ≈ 5–15
 // disk vs main memory: r ≈ 1000</div>
-      <div class="note"><div class="n-title">Performance Target</div>For T_s ≈ T₁, need hit ratio H close to 1. With r = T₂/T₁ = 25–50 (typical on-chip), need H ≥ ~0.9 for good efficiency.</div>
+      <div class="note"><div class="n-title">Performance Target</div>For T_s ≈ T₁, need <span class="tt" data-t="Cache hit — the requested data is found in the cache; no main-memory access needed">hit</span> ratio H close to 1. With r = T₂/T₁ = 25–50 (typical on-chip), need H ≥ ~0.9 for good efficiency.</div>
       <div class="label">Cost Formula (Eq. 4.3)</div>
       <div class="formula">C_s = (C₁·S₁ + C₂·S₂) / (S₁ + S₂)
 
@@ -477,7 +482,7 @@ Tag size          = s − d  bits</div>
         <li>Beyond ~32kB cache: increasing size yields no significant performance gain</li>
       </ul>
       <div class="label">Victim Cache (Reducing Direct-Map Conflicts)</div>
-      <p style="font-size:11px;">Small fully-associative cache (4–16 lines) between direct-mapped L1 and next memory level. Stores recently evicted lines for fast re-use. Reduces conflict misses without full associativity overhead.</p>
+      <p style="font-size:11px;">Small fully-associative cache (4–16 lines) between direct-mapped L1 and next memory level. Stores recently evicted lines for fast re-use. Reduces conflict misses without full <span class="tt" data-t="Number of cache slots a block can occupy: 1=direct, N=N-way, ∞=fully associative">associativity</span> overhead.</p>
     </div>
   </div>
 
@@ -485,11 +490,11 @@ Tag size          = s − d  bits</div>
   <div class="card red">
     <div class="card-header"><div class="dot"></div><h3>§4.3 Replacement Algorithms</h3></div>
     <div class="card-body">
-      <div class="note"><div class="n-title">Applies To</div>Only needed for <strong>associative</strong> and <strong>set-associative</strong> caches. Direct mapping has only one possible destination — no choice.</div>
+      <div class="note"><div class="n-title">Applies To</div>Only needed for <strong>associative</strong> and <strong><span class="tt" data-t="Cache organisation divided into sets where a block maps to any line within one set">set-associative</span></strong> caches. Direct mapping has only one possible destination — no choice.</div>
       <div class="label">Four Common Algorithms</div>
       <table class="tbl">
         <tr><th>Algorithm</th><th>Rule</th><th>Implementation</th><th>Performance</th></tr>
-        <tr><td style="color:var(--accent);">LRU</td><td>Replace line least recently used (longest time with no reference)</td><td>USE bit per line (2-way); list of indexes (fully assoc)</td><td>Best (exploits temporal locality)</td></tr>
+        <tr><td style="color:var(--accent);">LRU</td><td>Replace line least recently used (longest time with no reference)</td><td>USE bit per line (2-way); list of indexes (fully assoc)</td><td>Best (exploits <span class="tt" data-t="Recently accessed data is likely to be accessed again in the near future">temporal locality</span>)</td></tr>
         <tr><td style="color:var(--accent2);">FIFO</td><td>Replace line that has been in cache the longest</td><td>Round-robin / circular buffer</td><td>Good; simple</td></tr>
         <tr><td style="color:var(--accent4);">LFU</td><td>Replace line with fewest references</td><td>Counter per line</td><td>Good; moderate complexity</td></tr>
         <tr><td style="color:var(--accent3);">Random</td><td>Pick any candidate line at random</td><td>Trivial hardware</td><td>Only slightly worse than usage-based</td></tr>
@@ -525,7 +530,7 @@ On replacement: evict line with USE=0</div>
         </tr>
         <tr>
           <td style="color:var(--accent2);">Write-Back</td>
-          <td>Write only to cache; set <strong>dirty bit</strong>. Write to memory only on eviction (if dirty)</td>
+          <td>Write only to cache; set <strong><span class="tt" data-t="Flag indicating a write-back cache line has been modified and differs from main memory">dirty bit</span></strong>. Write to memory only on eviction (if dirty)</td>
           <td>Minimizes memory writes; less bus traffic</td>
           <td>Main memory may be stale; complex I/O; coherency issues</td>
         </tr>
@@ -546,7 +551,7 @@ On eviction: IF dirty_bit = 1 THEN write line back to memory
       <p style="font-size:11px;">When multiple CPUs/I/O share memory, a write in one cache invalidates others.</p>
       <div class="label">Coherency Solutions</div>
       <ul class="items">
-        <li><strong>Bus watching (write-through):</strong> Controllers monitor bus writes and invalidate matching entries</li>
+        <li><strong>Bus watching (<span class="tt" data-t="Every cache write is immediately propagated to main memory as well">write-through</span>):</strong> Controllers monitor bus writes and invalidate matching entries</li>
         <li><strong>Hardware transparency:</strong> Writes propagate to all caches automatically</li>
         <li><strong>Noncacheable memory:</strong> Shared memory excluded from caching (always misses)</li>
       </ul>
@@ -563,7 +568,7 @@ On eviction: IF dirty_bit = 1 THEN write line back to memory
   <div class="card blue">
     <div class="card-header"><div class="dot"></div><h3>§4.3 Line Size</h3></div>
     <div class="card-body">
-      <div class="info"><div class="i-title">Design Trade-off</div>Larger lines exploit spatial locality but reduce the number of lines in the cache, which can hurt performance by evicting useful data.</div>
+      <div class="info"><div class="i-title">Design Trade-off</div>Larger lines exploit <span class="tt" data-t="If address A is accessed, nearby addresses will likely be accessed soon">spatial locality</span> but reduce the number of lines in the cache, which can hurt performance by evicting useful data.</div>
       <div class="label">Effect of Block Size on Hit Ratio</div>
       <ul class="items">
         <li><strong>Small → medium size:</strong> Hit ratio ↑ (more spatial locality exploited)</li>
@@ -614,7 +619,7 @@ Miss penalty (burst) = 1 + T_first + (n-1) × T_each</div>
           <div class="label">Unified vs. Split Cache</div>
           <table class="tbl">
             <tr><th>Type</th><th>Description</th><th>Advantage</th></tr>
-            <tr><td style="color:var(--yellow);">Unified</td><td>Single cache for both instructions and data</td><td>Higher hit rate (auto load-balancing); one design</td></tr>
+            <tr><td style="color:var(--yellow);">Unified</td><td>Single cache for both instructions and data</td><td>Higher <span class="tt" data-t="Fraction of memory accesses satisfied by the cache; H = hits / total_accesses">hit rate</span> (auto load-balancing); one design</td></tr>
             <tr><td style="color:var(--accent2);">Split (Harvard)</td><td>Separate I-cache and D-cache at same level</td><td>Eliminates contention between fetch/decode and execute units</td></tr>
           </table>
           <div class="tip"><div class="t-title">Modern Trend</div>Split caches at L1 (eliminates pipeline stalls); unified caches at L2/L3. Critical for superscalar/pipelined designs that prefetch instructions while executing data operations simultaneously.</div>
@@ -887,7 +892,7 @@ T_s = T₁ + (1-H₁)T₂ + (1-H₁)(1-H₂)T₃ + ...
 
 <!-- FOOTER -->
 <div class="footer">
-  <a href="index.html" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);text-decoration:none;">&#8592; Back to Menu</a>
+  <a href="../COA.html" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);text-decoration:none;">&#8592; Back to Menu</a>
   <span>COA10e · Chapter 4 — Cache Memory · Stallings · Pages 120–164</span>
   <span>§4.1 Memory Overview · §4.2 Principles · §4.3 Design Elements · §4.4 Pentium 4 · §4A Performance</span>
 </div>

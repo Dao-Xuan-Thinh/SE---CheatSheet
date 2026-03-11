@@ -451,6 +451,11 @@
     code, .mono, .bin-block, .rule, .formula { background: #f5f5f5; color: #333 !important; }
     .rule, .formula { border-color: #999; }
   }
+
+/* ── Keyword Tooltips ── */
+.tt{position:relative;border-bottom:1px dotted var(--accent,#58a6ff);cursor:help;display:inline;}
+.tt::after{content:attr(data-t);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1c2128;color:#e6edf3;padding:6px 10px;border-radius:6px;font-size:11px;font-family:'IBM Plex Sans',sans-serif;font-weight:400;line-height:1.4;white-space:normal;width:220px;z-index:200;opacity:0;pointer-events:none;transition:opacity .18s ease;border:1px solid #30363d;box-shadow:0 4px 12px rgba(0,0,0,.5);}
+.tt:hover::after{opacity:1;}
 </style>
 </head>
 <body>
@@ -458,13 +463,13 @@
 <!-- HEADER -->
 <div class="header">
   <div class="header-left">
-    <h1>Computer Arithmetic — Chapter 11</h1>
+    <h1>Computer Arithmetic — Chapter 10</h1>
     <h2>Computer Organization &amp; Architecture, 11th Edition &nbsp;|&nbsp; Complete Study Reference</h2>
   </div>
   <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
     <span class="badge">COA10e · CH10</span>
     <div class="toc">
-      <span class="toc-item">ALU</span>
+      <span class="toc-item"><span class="tt" data-t="Arithmetic Logic Unit — performs add, subtract, AND, OR, XOR, and shift operations">ALU</span></span>
       <span class="toc-item">Integer Repr.</span>
       <span class="toc-item">2's Complement</span>
       <span class="toc-item">Negation</span>
@@ -473,8 +478,8 @@
       <span class="toc-item">Booth's Alg.</span>
       <span class="toc-item">Division</span>
       <span class="toc-item">Float Point</span>
-      <span class="toc-item">IEEE 754</span>
-      <span class="toc-item">NaN/Inf</span>
+      <span class="toc-item"><span class="tt" data-t="IEEE 754 standard defining single (32-bit) and double (64-bit) floating-point formats">IEEE</span> 754</span>
+      <span class="toc-item"><span class="tt" data-t="Not a Number — IEEE 754 special value indicating an invalid operation result (e.g. 0/0)">NaN</span>/Inf</span>
       <span class="toc-item">Rounding</span>
     </div>
   </div>
@@ -492,11 +497,11 @@
       <ul class="items">
         <li><strong>Operands</strong> — stored in registers, fed into ALU</li>
         <li><strong>Results</strong> — written back to registers</li>
-        <li><strong>Flags</strong> — overflow flag (OF), zero flag, etc. stored in 1-bit registers</li>
+        <li><strong>Flags</strong> — <span class="tt" data-t="Condition where an arithmetic result is too large for the destination register width">overflow</span> flag (OF), zero flag, etc. stored in 1-bit registers</li>
         <li><strong>Control signals</strong> — specify operation (add, sub, AND, OR…)</li>
       </ul>
       <div class="label">Add/Sub Hardware (Fig. 11.6)</div>
-      <p>Uses a central <strong>binary adder</strong>. For subtraction, the subtrahend (B) is passed through a <em>twos complementer</em> before reaching the adder. A 1-bit overflow flag stores the result of overflow detection.</p>
+      <p>Uses a central <strong>binary <span class="tt" data-t="Digital circuit that computes the sum of two binary numbers, producing sum and carry-out">adder</span></strong>. For <span class="tt" data-t="Binary operation implemented by negating the subtrahend (invert + add 1) and adding">subtraction</span>, the subtrahend (B) is passed through a <em>twos complementer</em> before reaching the adder. A 1-bit overflow flag stores the result of overflow detection.</p>
     </div>
   </div>
 
@@ -520,7 +525,7 @@
       </table>
       <div class="label">Key Properties</div>
       <ul class="items">
-        <li><strong>Sign-Magnitude:</strong> MSB = sign bit; two representations of 0; rarely used in ALUs</li>
+        <li><strong>Sign-Magnitude:</strong> MSB = <span class="tt" data-t="Most-significant bit encoding the number's sign: 0 = positive, 1 = negative">sign bit</span>; two representations of 0; rarely used in ALUs</li>
         <li><strong>Twos Complement:</strong> One representation of 0; range −2<sup>n−1</sup> to 2<sup>n−1</sup>−1; universally used</li>
         <li><strong>Biased (Excess-N):</strong> True value = stored value − bias; used in float exponents; unsigned comparison works</li>
         <li><strong>Fixed-Point:</strong> Radix point assumed at fixed position (right of LSB for integers)</li>
@@ -579,7 +584,7 @@
       </div>
       <div class="warn">
         <div class="w-title">⚠ Special Case 1: Zero</div>
-        00000000 → 11111111 + 1 = <strong>1</strong>00000000 → carry discarded → 00000000 = 0 ✓
+        00000000 → 11111111 + 1 = <strong>1</strong>00000000 → <span class="tt" data-t="Bit generated when a column sum exceeds the digit capacity, added to the next column">carry</span> discarded → 00000000 = 0 ✓
       </div>
       <div class="warn">
         <div class="w-title">⚠ Special Case 2: Most Negative (−128)</div>
@@ -685,7 +690,7 @@
       <div class="label">Hardware (Fig. 11.8) — Registers: M, A, Q, C</div>
       <ul class="items">
         <li><strong>M</strong> = multiplicand &nbsp;|&nbsp; <strong>Q</strong> = multiplier &nbsp;|&nbsp; <strong>A</strong> = accumulator (init 0) &nbsp;|&nbsp; <strong>C</strong> = carry bit</li>
-        <li>Each cycle: if Q₀=1, A←A+M; then shift C,A,Q right 1</li>
+        <li>Each cycle: if Q₀=1, A←A+M; then <span class="tt" data-t="Bit-displacement operation used in multiplication (left shift ×2) and division (right shift ÷2)">shift</span> C,A,Q right 1</li>
         <li>Repeat n times. Product in A:Q</li>
       </ul>
     </div>
@@ -696,7 +701,7 @@
     <div class="card-header"><div class="dot"></div><h3>Booth's Algorithm (Twos Complement Multiply)</h3></div>
     <div class="card-body">
       <div class="label">Why Booth's?</div>
-      <p>Straightforward unsigned multiplication fails for negative (twos complement) multiplicands. Booth's handles all sign combinations and often speeds up multiplication by skipping blocks of 0s or 1s.</p>
+      <p>Straightforward unsigned <span class="tt" data-t="Repeated-addition operation; hardware uses shift-and-add or Booth encoding">multiplication</span> fails for negative (twos complement) multiplicands. Booth's handles all sign combinations and often speeds up multiplication by skipping blocks of 0s or 1s.</p>
       <div class="label">Setup</div>
       <ul class="items">
         <li>Registers: <strong>A</strong> (init 0), <strong>Q</strong> (multiplier), <strong>Q₋₁</strong> (1-bit, init 0), <strong>M</strong> (multiplicand)</li>
@@ -747,7 +752,7 @@
     <div class="card-header"><div class="dot"></div><h3>Binary Division</h3></div>
     <div class="card-body">
       <div class="label">Unsigned Division — Restoring Algorithm</div>
-      <p>Similar to long division. Registers: <strong>A</strong> (init 0, becomes remainder), <strong>Q</strong> (dividend → quotient), <strong>M</strong> (divisor).</p>
+      <p>Similar to long <span class="tt" data-t="Inverse of multiplication; hardware uses restoring or non-restoring subtraction algorithms">division</span>. Registers: <strong>A</strong> (init 0, becomes remainder), <strong>Q</strong> (dividend → quotient), <strong>M</strong> (divisor).</p>
       <ol class="steps">
         <li>Shift A, Q left 1 bit</li>
         <li>Subtract M from A: A ← A − M</li>
@@ -781,7 +786,7 @@
       <div class="label">Motivation</div>
       <ul class="items">
         <li>Fixed-point can't represent very large or very small numbers</li>
-        <li>FP analogous to scientific notation: &nbsp;<em>significand × base<sup>exponent</sup></em></li>
+        <li>FP analogous to scientific notation: &nbsp;<em><span class="tt" data-t="The significant-digit mantissa field of a floating-point number, excluding the biased exponent">significand</span> × base<sup><span class="tt" data-t="Biased power-of-2 field in a floating-point number controlling the scale">exponent</span></sup></em></li>
       </ul>
       <div class="label">General 32-bit Format</div>
       <div class="float-format">
@@ -827,7 +832,7 @@
       <ul class="items">
         <li><strong>Exponent overflow</strong> → ±∞</li>
         <li><strong>Exponent underflow</strong> → 0 or subnormal</li>
-        <li><strong>Significand underflow</strong> → rounding needed (digits lost right)</li>
+        <li><strong>Significand underflow</strong> → <span class="tt" data-t="Adjusting a result to fit the mantissa width: round-to-nearest, truncate, etc.">rounding</span> needed (digits lost right)</li>
         <li><strong>Significand overflow</strong> → carry from MSB → re-align (shift right, increment exponent)</li>
       </ul>
     </div>
@@ -1104,7 +1109,8 @@
 </div>
 
 <div class="footer">
-  <span>Computer Organization &amp; Architecture, 11th Edition — Chapter 11: Computer Arithmetic</span>
+  <a href="../COA.html" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);text-decoration:none;">← Back to Menu</a>
+  <span>Computer Organization &amp; Architecture, 10th Edition — Chapter 10: Computer Arithmetic</span>
   <span>Study reference — all content based on course slides</span>
 </div>
 

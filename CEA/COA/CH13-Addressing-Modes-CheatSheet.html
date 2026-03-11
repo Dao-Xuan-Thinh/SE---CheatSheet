@@ -176,6 +176,11 @@
   .ea { display: inline-block; background: rgba(88,166,255,0.15); border: 1px solid rgba(88,166,255,0.35); border-radius: 3px; padding: 1px 7px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 600; }
 
   .footer { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 10px; display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-dim); }
+
+/* ── Keyword Tooltips ── */
+.tt{position:relative;border-bottom:1px dotted var(--accent,#58a6ff);cursor:help;display:inline;}
+.tt::after{content:attr(data-t);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1c2128;color:#e6edf3;padding:6px 10px;border-radius:6px;font-size:11px;font-family:'IBM Plex Sans',sans-serif;font-weight:400;line-height:1.4;white-space:normal;width:220px;z-index:200;opacity:0;pointer-events:none;transition:opacity .18s ease;border:1px solid #30363d;box-shadow:0 4px 12px rgba(0,0,0,.5);}
+.tt:hover::after{opacity:1;}
 </style>
 </head>
 <body>
@@ -229,7 +234,7 @@
             </tbody>
           </table>
           <div style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);">
-            Notation: &nbsp; A = address field &nbsp;|&nbsp; R = register field &nbsp;|&nbsp; (X) = contents of X &nbsp;|&nbsp; EA = effective address
+            Notation: &nbsp; A = address field &nbsp;|&nbsp; R = register field &nbsp;|&nbsp; (X) = contents of X &nbsp;|&nbsp; EA = <span class="tt" data-t="Final computed memory address after applying the addressing mode rules">effective address</span>
           </div>
         </div>
         <div>
@@ -288,12 +293,12 @@
     <div class="card-header"><div class="dot"></div><h3>Displacement Addressing</h3></div>
     <div class="card-body">
       <div class="formula">EA = A + (R) &nbsp;&nbsp;[address field + register contents]</div>
-      <p>Requires two address fields in the instruction. Combines capabilities of direct addressing (the constant A) and register indirect addressing (the register R). Three major uses:</p>
+      <p>Requires two address fields in the instruction. Combines capabilities of <span class="tt" data-t="Instruction field contains the absolute memory address where the operand resides">direct addressing</span> (the constant A) and register <span class="tt" data-t="Instruction gives address of a memory word that in turn contains the operand address">indirect addressing</span> (the register R). Three major uses:</p>
 
       <div class="label">1. Relative (PC-Relative) Addressing</div>
       <ul class="items">
         <li>Implicit register = <strong>Program Counter (PC)</strong></li>
-        <li><code>EA = A + (PC)</code> — A is a signed twos complement offset</li>
+        <li><code>EA = A + (PC)</code> — A is a signed twos complement <span class="tt" data-t="Signed constant added to a base register or PC to form the effective memory address">offset</span></li>
         <li>Effective address is relative to the current instruction</li>
         <li>Exploits locality — nearby addresses need fewer bits</li>
         <li>Used for branches and jumps in position-independent code</li>
@@ -301,7 +306,7 @@
 
       <div class="label">2. Base-Register Addressing</div>
       <ul class="items">
-        <li>Register holds a <em>base</em> (segment start) address; A is an unsigned displacement/offset</li>
+        <li>Register holds a <em>base</em> (<span class="tt" data-t="Memory region with a base address in a segment register; offset added to form full address">segment</span> start) address; A is an unsigned <span class="tt" data-t="Signed constant in an instruction added to a base register to form the effective address">displacement</span>/offset</li>
         <li>Register reference may be explicit or implicit</li>
         <li>Supports segmentation — one segment-base register per segment</li>
         <li>If N registers, K-bit offset: can reference N regions of 2ᴷ words</li>
@@ -310,7 +315,7 @@
       <div class="label">3. Indexing</div>
       <ul class="items">
         <li>A = base memory address (in instruction); Register = positive offset/index</li>
-        <li>Opposite interpretation from base-register: A is the fixed base, R increments</li>
+        <li>Opposite interpretation from <span class="tt" data-t="Addressing mode using a base register plus a small displacement for structure field access">base-register</span>: A is the fixed base, R increments</li>
         <li>Ideal for iterative array traversal — increment index register each loop</li>
         <li><strong>Autoindexing:</strong> hardware auto-increments/decrements index reg after each use</li>
       </ul>
@@ -431,7 +436,7 @@
       </ul>
       <div class="label">ARM Data Processing &amp; Branch</div>
       <ul class="items">
-        <li><strong>Data processing:</strong> register addressing, or register + immediate (with optional shift on one operand)</li>
+        <li><strong>Data processing:</strong> <span class="tt" data-t="Operand is held in a CPU register identified by a register-number field in the instruction">register addressing</span>, or register + immediate (with optional shift on one operand)</li>
         <li><strong>Branch instructions:</strong> immediate only — 24-bit value, shifted left 2 bits (word alignment) → effective range ±32 MB from PC</li>
       </ul>
     </div>
@@ -484,7 +489,7 @@
         <div class="fmt-seg f-a"><div class="fl">bits 5–11</div><div class="fv">Displacement (7b)</div></div>
       </div>
       <ul class="items">
-        <li><strong>Page bit=0:</strong> address is on page 0 (words 0–127)</li>
+        <li><strong>Page bit=0:</strong> address is on <span class="tt" data-t="Fixed-size memory region; page-mode addressing uses a page bit plus within-page offset">page</span> 0 (words 0–127)</li>
         <li><strong>Page bit=1:</strong> address is on current page (page containing instruction)</li>
         <li><strong>Indirect bit:</strong> 0=direct, 1=indirect. Combined with page for full flexibility</li>
         <li>8 dedicated words on page 0 act as autoindex "registers"</li>
@@ -546,7 +551,7 @@
         <li>Each operand specifier: 1 byte minimum; 4-bit mode field + 4-bit register; extendable with constant bytes</li>
         <li>12 different addressing modes per operand</li>
         <li>Literal mode: 00 in top 2 bits → 6-bit literal embedded in operand byte</li>
-        <li>Index mode prefix byte for indexed addressing</li>
+        <li>Index mode prefix byte for <span class="tt" data-t="Effective address = base address + index register value; good for array traversal">indexed addressing</span></li>
         <li>Supports memory-to-memory operations in a single instruction (contrast: x86 cannot)</li>
       </ul>
     </div>
@@ -737,6 +742,7 @@
 </div>
 
 <div class="footer">
+  <a href="../COA.html" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);text-decoration:none;">← Back to Menu</a>
   <span>Computer Organization &amp; Architecture, 11th Edition — Chapter 14: Instruction Sets: Addressing Modes and Formats</span>
   <span>Study reference — all content based on course slides</span>
 </div>
