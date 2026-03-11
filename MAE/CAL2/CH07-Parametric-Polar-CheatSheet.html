@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Parametric Equations &amp; Polar Coordinates — Calculus II Cheatsheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Sans+Condensed:wght@700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../shared.css"/>
+  <link rel="stylesheet" href="cal2.css"/>
+</head>
+<body>
+<nav id="page-toc"><div class="toc-hdr">Contents</div></nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">MAE · CAL2 · Chapter 7</div>
+    <h1>Parametric &amp; Polar <span>— Chapter 7</span></h1>
+    <p class="page-subtitle">Parametric equations (derivatives, arc length), polar coordinates (conversion, common curves, slopes), area and arc length in polar form, and polar equations of conic sections.</p>
+    <span class="page-badge">CAL2 · CH7 · §7.1–§7.5</span>
+  </div>
+</header>
+
+<div class="page-body">
+
+  <!-- ─── §7.1 Parametric Equations ─── -->
+  <div class="section">
+    <div class="section-title">§7.1 Parametric Equations</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Parametric Curves</div>
+        <div class="def">
+          <div class="def-label">Definition</div>
+          A <span class="tt" data-t="A curve described by a pair of functions x = f(t), y = g(t) where t is the parameter; useful for curves that fail the vertical line test">parametric curve</span> is defined by:<br>
+          x = f(t), &nbsp; y = g(t), &nbsp; t ∈ [α, β]<br>
+          The variable t is the <strong>parameter</strong>.
+        </div>
+        <div class="def">
+          <div class="def-label">Eliminating the Parameter</div>
+          Solve one equation for t, substitute into the other to get y = f(x) (if possible).
+        </div>
+        <ul class="items">
+          <li><strong>Line:</strong> x = x₀+at, y = y₀+bt</li>
+          <li><strong>Circle:</strong> x = r cos t, y = r sin t, t ∈ [0, 2π]</li>
+          <li><strong>Ellipse:</strong> x = a cos t, y = b sin t</li>
+          <li><strong>Cycloid:</strong> x = r(t−sin t), y = r(1−cos t)</li>
+        </ul>
+        <div class="note">
+          <div class="note-label">Orientation</div>
+          The direction of increasing t traces the orientation of the curve. A curve may be traversed multiple times as t varies.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Calculus with Parametric Curves</div>
+        <div class="theorem">
+          <div class="theorem-label">First Derivative dy/dx</div>
+          If x = f(t), y = g(t) and dx/dt ≠ 0:
+        </div>
+        <div class="formula">
+          <span class="formula-label">First Derivative</span>
+          $$\frac{dy}{dx} = \frac{dy/dt}{dx/dt} = \frac{g\'(t)}{f\'(t)}$$
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Second Derivative d²y/dx²</div>
+        </div>
+        <div class="formula">
+          <span class="formula-label">Second Derivative</span>
+          $$\frac{d^2y}{dx^2} = \frac{\dfrac{d}{dt}\!\left(\dfrac{dy}{dx}\right)}{dx/dt}$$
+        </div>
+        <div class="note">
+          <div class="note-label">Tangent Lines</div>
+          <ul class="items">
+            <li><strong>Horizontal tangent:</strong> dy/dt = 0 and dx/dt ≠ 0</li>
+            <li><strong>Vertical tangent:</strong> dx/dt = 0 and dy/dt ≠ 0</li>
+            <li><strong>Singular point (cusp):</strong> dx/dt = dy/dt = 0</li>
+          </ul>
+        </div>
+        <div class="example">
+          <div class="example-label">Example</div>
+          x = t², y = t³ − 3t: dx/dt = 2t, dy/dt = 3t²−3<br>
+          dy/dx = (3t²−3)/(2t)<br>
+          Horizontal tangents: t = ±1 → points (1, ±2)
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §7.2 Arc Length & Area ─── -->
+  <div class="section">
+    <div class="section-title">§7.2 Arc Length & Surface Area — Parametric</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Arc Length (Parametric)</div>
+        <div class="theorem">
+          <div class="theorem-label">Theorem</div>
+          Arc length of x = f(t), y = g(t), α ≤ t ≤ β:
+        </div>
+        <div class="formula">
+          <span class="formula-label">Parametric Arc Length</span>
+          $$L = \int_\alpha^\beta \sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2}\,dt$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Area Under Parametric Curve</span>
+          $$A = \int_\alpha^\beta y(t)\,x\'(t)\,dt \quad\text{(curve traced left to right)}$$
+        </div>
+        <div class="example">
+          <div class="example-label">Example — Circle</div>
+          x = r cos t, y = r sin t, t ∈ [0, 2π]<br>
+          dx/dt = −r sin t, dy/dt = r cos t<br>
+          L = ∫<sub>0</sub><sup>2π</sup>√(r²sin²t + r²cos²t) dt = ∫<sub>0</sub><sup>2π</sup> r dt = 2πr ✓
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Surface Area of Revolution (Parametric)</div>
+        <div class="formula">
+          <span class="formula-label">Surface Area — About x-axis</span>
+          $$S = 2\pi\int_\alpha^\beta y(t)\sqrt{\left(\tfrac{dx}{dt}\right)^2+\left(\tfrac{dy}{dt}\right)^2}\,dt$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Surface Area — About y-axis</span>
+          $$S = 2\pi\int_\alpha^\beta x(t)\sqrt{\left(\tfrac{dx}{dt}\right)^2+\left(\tfrac{dy}{dt}\right)^2}\,dt$$
+        </div>
+        <div class="note">
+          <div class="note-label">Pattern</div>
+          Both surface area formulas follow: 2π · (distance from axis) · (arc length element ds)<br>
+          where ds = √[(dx/dt)² + (dy/dt)²] dt
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §7.3 Polar Coordinates ─── -->
+  <div class="section">
+    <div class="section-title">§7.3 Polar Coordinates</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Polar System & Conversions</div>
+        <div class="def">
+          <div class="def-label">Polar Coordinates</div>
+          A point is given as <span class="tt" data-t="(r, θ): r is the distance from the origin (pole); θ is the angle from the positive x-axis (polar axis)">( r, θ )</span> where r is the radial distance and θ is the angle.
+        </div>
+        <div class="formula">
+          <span class="formula-label">Polar ↔ Rectangular</span>
+          $$x = r\cos\theta \qquad y = r\sin\theta$$
+          $$r^2 = x^2+y^2 \qquad \tan\theta = \frac{y}{x} \qquad r = \sqrt{x^2+y^2}$$
+        </div>
+        <div class="note">
+          <div class="note-label">Multiple Representations</div>
+          (r, θ) = (r, θ + 2πk) = (−r, θ + π) — each point has infinitely many polar representations.
+        </div>
+        <div class="example">
+          <div class="example-label">Example Conversions</div>
+          (3, π/4) → x = 3cos(π/4) = 3√2/2, y = 3√2/2<br>
+          (−2, 3) → r = √13, θ = π + arctan(3/2) (Q III)
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Common Polar Curves</div>
+        <table class="tbl">
+          <thead><tr><th>Curve</th><th>Equation</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Circle (center O)</td><td>r = a</td><td>radius a</td></tr>
+            <tr><td>Circle (on x-axis)</td><td>r = 2a cos θ</td><td>center (a,0), radius a</td></tr>
+            <tr><td>Circle (on y-axis)</td><td>r = 2a sin θ</td><td>center (0,a), radius a</td></tr>
+            <tr><td><span class="tt" data-t="Heart-shaped polar curve; r = a(1 ± cos θ) or r = a(1 ± sin θ)">Cardioid</span></td><td>r = a(1 ± cos θ)</td><td>passes through origin</td></tr>
+            <tr><td><span class="tt" data-t="Polar curve r = a + b cos θ; outer loop + possible inner loop depending on a/b ratio">Limaçon</span></td><td>r = a + b cos θ</td><td>inner loop if a &lt; b</td></tr>
+            <tr><td>Rose (n petals)</td><td>r = a cos(nθ)</td><td>n petals if n odd; 2n if n even</td></tr>
+            <tr><td><span class="tt" data-t="Polar curve r² = a²cos(2θ) or r² = a²sin(2θ); figure-8 shape">Lemniscate</span></td><td>r² = a² cos 2θ</td><td>figure-8 shape</td></tr>
+            <tr><td>Spiral</td><td>r = aθ</td><td>Archimedean spiral</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §7.4 Calculus in Polar ─── -->
+  <div class="section">
+    <div class="section-title">§7.4 Calculus in Polar Coordinates</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Slopes & Tangent Lines in Polar</div>
+        <div class="def">
+          <div class="def-label">Converting to Parametric</div>
+          For r = f(θ): x = r cos θ = f(θ)cos θ, y = r sin θ = f(θ)sin θ, with parameter θ.
+        </div>
+        <div class="formula">
+          <span class="formula-label">Slope of Polar Curve</span>
+          $$\frac{dy}{dx} = \frac{dy/d\theta}{dx/d\theta} \quad\text{where}\quad \frac{dy}{d\theta} = r'\sin\theta+r\cos\theta,\quad \frac{dx}{d\theta} = r'\cos\theta-r\sin\theta$$
+        </div>
+        <div class="note">
+          <div class="note-label">Tangent Lines</div>
+          <ul class="items">
+            <li><strong>Horizontal:</strong> dy/dθ = 0, dx/dθ ≠ 0</li>
+            <li><strong>Vertical:</strong> dx/dθ = 0, dy/dθ ≠ 0</li>
+          </ul>
+        </div>
+        <div class="example">
+          <div class="example-label">Example — Cardioid</div>
+          r = 1 + cos θ: r′ = −sin θ<br>
+          dy/dθ = −sin θ·sin θ + (1+cos θ)cos θ = cos θ + cos 2θ<br>
+          Horizontal tangents: solve cos θ + cos 2θ = 0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Area & Arc Length in Polar</div>
+        <div class="theorem">
+          <div class="theorem-label">Area Enclosed by Polar Curve</div>
+          Area swept out by r = f(θ) from θ = α to θ = β:
+        </div>
+        <div class="formula">
+          <span class="formula-label">Polar Area</span>
+          $$A = \frac{1}{2}\int_\alpha^\beta [f(\theta)]^2\,d\theta = \frac{1}{2}\int_\alpha^\beta r^2\,d\theta$$
+        </div>
+        <figure class="math-fig">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Rose_curve_r%3Dcos%284t%29.svg" alt="Rose curve r=cos(4θ)" loading="lazy"/>
+  <figcaption>Rose curve $r = \cos(4\theta)$</figcaption>
+</figure>
+        <div class="formula">
+          <span class="formula-label">Area Between Two Polar Curves (r<sub>outer</sub> ≥ r<sub>inner</sub>)</span>
+          $$A = \frac{1}{2}\int_\alpha^\beta \bigl(r_{\text{outer}}^2 - r_{\text{inner}}^2\bigr)\,d\theta$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Arc Length in Polar</span>
+          $$L = \int_\alpha^\beta \sqrt{r^2+\left(\frac{dr}{d\theta}\right)^2}\,d\theta$$
+        </div>
+        <div class="example">
+          <div class="example-label">Example — Circle r = 2</div>
+          A = (1/2)∫<sub>0</sub><sup>2π</sup> 4 dθ = (1/2)(4)(2π) = 4π ✓
+        </div>
+        <div class="example">
+          <div class="example-label">Example — One Petal of r = cos 2θ</div>
+          One petal: θ ∈ [−π/4, π/4]<br>
+          A = (1/2)∫<sub>−π/4</sub><sup>π/4</sup> cos²(2θ) dθ = π/8
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §7.5 Conic Sections in Polar ─── -->
+  <div class="section">
+    <div class="section-title">§7.5 Conic Sections in Polar Coordinates</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Polar Equations of Conics</div>
+        <div class="def">
+          <div class="def-label">Focus-Directrix Definition</div>
+          <span class="tt" data-t="e = distance to focus / distance to directrix; determines the type of conic section">Eccentricity e</span>: ratio of distance from focus to distance from directrix. One focus at pole.
+        </div>
+        <div class="formula">
+          <span class="formula-label">Polar Conic — Horizontal Directrix</span>
+          $$r = \frac{ep}{1 \pm e\sin\theta}$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Polar Conic — Vertical Directrix</span>
+          $$r = \frac{ep}{1 \pm e\cos\theta}$$
+        </div>
+        <figure class="math-fig">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c9/Cardioid.svg" alt="Cardioid" loading="lazy"/>
+  <figcaption>Cardioid $r = a(1+\cos\theta)$ — eccentricity $e=1$</figcaption>
+</figure>
+        <table class="tbl">
+          <thead><tr><th>e</th><th>Conic</th></tr></thead>
+          <tbody>
+            <tr><td>e = 0</td><td>Circle</td></tr>
+            <tr><td>0 &lt; e &lt; 1</td><td>Ellipse</td></tr>
+            <tr><td>e = 1</td><td>Parabola</td></tr>
+            <tr><td>e &gt; 1</td><td>Hyperbola</td></tr>
+          </tbody>
+        </table>
+        <div class="note">
+          <div class="note-label">Focal Parameter p</div>
+          p = distance from focus to directrix (semi-latus rectum). To use: make the constant term in denominator = 1 by dividing; then the coefficient of sin/cos is e.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Chapter Summary — Key Formula Quick Reference</div>
+        <table class="tbl">
+          <thead><tr><th>Topic</th><th>Formula</th></tr></thead>
+          <tbody>
+            <tr><td>Parametric dy/dx</td><td>(dy/dt)/(dx/dt)</td></tr>
+            <tr><td>Parametric arc length</td><td>∫√[(x′)²+(y′)²] dt</td></tr>
+            <tr><td>Parametric area (under curve)</td><td>∫ y(t)x′(t) dt</td></tr>
+            <tr><td>Polar → rect</td><td>x=r cos θ, y=r sin θ</td></tr>
+            <tr><td>Rect → polar</td><td>r=√(x²+y²), tan θ=y/x</td></tr>
+            <tr><td>Polar slope</td><td>(r′sin θ+r cos θ)/(r′cos θ−r sin θ)</td></tr>
+            <tr><td>Polar area</td><td>(1/2)∫ r² dθ</td></tr>
+            <tr><td>Polar arc length</td><td>∫√(r²+(r′)²) dθ</td></tr>
+          </tbody>
+        </table>
+        <div class="note">
+          <div class="note-label">Common Mistake</div>
+          For polar area: always determine the correct angular limits α, β. For roses and limaçons, identify exactly one petal or loop and integrate over that range, then multiply by the number of petals.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end .page-body -->
+
+<footer class="chapter-footer">
+  <a href="CH06-Power-Series-CheatSheet.html">← Power Series</a>
+  <span class="footer-center">Calculus Volume 2 · OpenStax · CH7</span>
+  <a href="../CAL2.html">Back to Index →</a>
+</footer>
+
+<script>
+(function(){
+  var toc=document.getElementById('page-toc');if(!toc)return;
+  var hdr=toc.querySelector('.toc-hdr');
+  var chev=document.createElement('span');chev.className='toc-chevron';chev.textContent='▾';hdr.appendChild(chev);
+  var body=document.createElement('div');body.className='toc-body';toc.appendChild(body);
+  var STORE='toc-cal2-7';
+  function applyState(c){toc.classList.toggle('toc-collapsed',c);toc.classList.toggle('toc-open',!c);}
+  applyState(localStorage.getItem(STORE)==='1');
+  hdr.addEventListener('click',function(){var c=!toc.classList.contains('toc-collapsed');applyState(c);localStorage.setItem(STORE,c?'1':'0');});
+  var cards=Array.from(document.querySelectorAll('.card'));
+  cards.forEach(function(card,i){
+    var title=card.querySelector('.card-title');if(!title)return;
+    var id='card-'+i;card.id=id;
+    var a=document.createElement('a');a.className='toc-link';a.href='#'+id;
+    a.textContent=title.textContent.trim();
+    a.onclick=function(e){e.preventDefault();card.scrollIntoView({behavior:'smooth',block:'start'});card.classList.remove('card-focus');void card.offsetWidth;card.classList.add('card-focus');setTimeout(function(){card.classList.remove('card-focus');},900);};
+    body.appendChild(a);
+  });
+  var links=Array.from(body.querySelectorAll('.toc-link'));
+  function updateActive(){var mid=window.scrollY+window.innerHeight*0.3;var best=null,bestDist=Infinity;cards.forEach(function(c){if(!c.id)return;var top=c.getBoundingClientRect().top+window.scrollY;var dist=Math.abs(top-mid);if(dist<bestDist){bestDist=dist;best=c.id;}});links.forEach(function(l){l.classList.toggle('active',!!(best&&l.href.endsWith('#'+best)));});}
+  window.addEventListener('scroll',updateActive,{passive:true});updateActive();
+  document.querySelectorAll('.tt').forEach(function(el){
+    el.addEventListener('mouseenter',function(){var r=el.getBoundingClientRect(),w=220,cx=r.left+r.width/2,shift=0;if(cx-w/2<10)shift=10-(cx-w/2);else if(cx+w/2>window.innerWidth-10)shift=window.innerWidth-10-(cx+w/2);el.style.setProperty('--tt-shift',shift+'px');});
+    el.addEventListener('mouseleave',function(){el.style.removeProperty('--tt-shift');});
+  });
+})();
+</script>
+<script src="../katex.js"></script>
+</body>
+</html>

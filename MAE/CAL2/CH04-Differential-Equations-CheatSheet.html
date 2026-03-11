@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Differential Equations — Calculus II Cheatsheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Sans+Condensed:wght@700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../shared.css"/>
+  <link rel="stylesheet" href="cal2.css"/>
+</head>
+<body>
+<nav id="page-toc"><div class="toc-hdr">Contents</div></nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">MAE · CAL2 · Chapter 4</div>
+    <h1>Differential Equations <span>— Chapter 4</span></h1>
+    <p class="page-subtitle">ODE terminology, separable equations, linear first-order equations (integrating factor), direction fields, Euler's method, and applied models: exponential growth/decay, Newton's cooling, logistic growth.</p>
+    <span class="page-badge">CAL2 · CH4 · §4.1–§4.4</span>
+  </div>
+</header>
+
+<div class="page-body">
+
+  <!-- ─── §4.1 Basics ─── -->
+  <div class="section">
+    <div class="section-title">§4.1 Basics of Differential Equations</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Terminology & Classification</div>
+        <div class="def">
+          <div class="def-label">Differential Equation</div>
+          An equation involving an unknown function y(x) and one or more of its derivatives.
+        </div>
+        <table class="tbl">
+          <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><span class="tt" data-t="The highest derivative that appears in the ODE">Order</span></td><td>Highest derivative present (y′ → 1st, y″ → 2nd, …)</td></tr>
+            <tr><td><span class="tt" data-t="The exponent on the highest-order derivative (when the ODE is polynomial in derivatives)">Degree</span></td><td>Exponent on the highest-order derivative term</td></tr>
+            <tr><td>Linear</td><td>y and its derivatives appear to the first power, not multiplied together</td></tr>
+            <tr><td>Nonlinear</td><td>Contains products of y·y′, or (y′)², or sin(y), etc.</td></tr>
+            <tr><td>Autonomous</td><td>Right-hand side depends only on y, not on x: y′ = f(y)</td></tr>
+          </tbody>
+        </table>
+        <div class="example">
+          <div class="example-label">Examples</div>
+          y′ + 2y = 0 — 1st order, linear<br>
+          y″ + y²= 0 — 2nd order, nonlinear<br>
+          y′ = y(1−y) — 1st order, nonlinear, autonomous
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>General & Particular Solutions</div>
+        <div class="def">
+          <div class="def-label">General Solution</div>
+          A family of solutions containing arbitrary constants (one per order). E.g., y = Ce<sup>−2x</sup>.
+        </div>
+        <div class="def">
+          <div class="def-label">Particular Solution</div>
+          Obtained by applying <span class="tt" data-t="Initial conditions specify the value of y (and its derivatives) at a given point x₀">initial conditions</span> to determine the constant(s).
+        </div>
+        <div class="def">
+          <div class="def-label">Initial-Value Problem (IVP)</div>
+          ODE + initial condition(s). Example:<br>
+          y′ = −2y, &nbsp; y(0) = 3<br>
+          → particular solution: y = 3e<sup>−2x</sup>
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Existence & Uniqueness Theorem</div>
+          If f and ∂f/∂y are continuous near (x₀, y₀), then the IVP y′ = f(x,y), y(x₀)=y₀ has a unique solution in some interval containing x₀.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §4.2 Direction Fields & Euler ─── -->
+  <div class="section">
+    <div class="section-title">§4.2 Direction Fields & Euler's Method</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Direction Fields (Slope Fields)</div>
+        <div class="def">
+          <div class="def-label">Definition</div>
+          A <span class="tt" data-t="A grid of short line segments with slope f(x,y) at each point (x,y); gives a visual picture of solution curves">direction field</span> for y′ = f(x,y): at each point (x,y), draw a short segment with slope f(x,y).
+        </div>
+        <ul class="items">
+          <li><strong>Nullclines:</strong> curves where f(x,y) = 0 (slopes are horizontal)</li>
+          <li><strong>Equilibrium solutions:</strong> constant solutions where y′ = 0</li>
+          <li><strong>Stable equilibrium:</strong> nearby solutions converge toward it</li>
+          <li><strong>Unstable equilibrium:</strong> nearby solutions diverge from it</li>
+          <li><strong>Semi-stable:</strong> solutions approach from one side, diverge from the other</li>
+        </ul>
+        <div class="note">
+          <div class="note-label">Sketch Technique</div>
+          For y′ = f(y) (autonomous), the direction field is independent of x — rows of segments have the same slope.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Euler's Method (Numerical)</div>
+        <div class="def">
+          <div class="def-label">Algorithm</div>
+          <span class="tt" data-t="A numerical method that steps along the tangent line to approximate the solution curve of an IVP">Euler's method</span> for y′ = f(x,y), y(x₀) = y₀ with step size h:
+        </div>
+        <div class="formula">
+          <span class="formula-label">Euler's Method Formula</span>
+          $$x_{n+1} = x_n + h \qquad y_{n+1} = y_n + h\cdot f(x_n,\,y_n)$$
+        </div>
+        <div class="example">
+          <div class="example-label">Example — y′ = x + y, y(0) = 1, h = 0.1</div>
+          <code>x₀=0, y₀=1: y₁=1+0.1·(0+1)=1.1</code><br>
+          <code>x₁=0.1, y₁=1.1: y₂=1.1+0.1·(0.1+1.1)=1.22</code>
+        </div>
+        <div class="note">
+          <div class="note-label">Accuracy</div>
+          Euler's method has error O(h) per step. Smaller h → better approximation but more steps. The global truncation error is O(h) — first-order method.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §4.3 Separable Equations ─── -->
+  <div class="section">
+    <div class="section-title">§4.3 Separable Differential Equations</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Separation of Variables</div>
+        <div class="def">
+          <div class="def-label">Form</div>
+          A <span class="tt" data-t="A first-order ODE that can be written as dy/dx = g(x)h(y); solved by separating x and y to different sides">separable ODE</span> has the form: dy/dx = g(x) · h(y)
+        </div>
+        <div class="def">
+          <div class="def-label">5-Step Method</div>
+          <ol class="steps">
+            <li>Check for equilibrium solutions (h(y) = 0)</li>
+            <li>Separate: dy/h(y) = g(x) dx</li>
+            <li>Integrate both sides</li>
+            <li>Solve for y (if possible)</li>
+            <li>Apply initial condition to find constant C</li>
+          </ol>
+        </div>
+        <div class="example">
+          <div class="example-label">Example</div>
+          dy/dx = xy, y(0) = 2<br>
+          dy/y = x dx → ln|y| = x²/2 + C<br>
+          y = Ae<sup>x²/2</sup>; y(0)=2 → A=2<br>
+          <strong>y = 2e<sup>x²/2</sup></strong>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Linear First-Order ODEs — Integrating Factor</div>
+        <div class="def">
+          <div class="def-label">Standard Form</div>
+          <span class="tt" data-t="A first-order ODE that is linear in y and y′; can always be solved by the integrating factor method">Linear first-order ODE:</span> dy/dx + P(x) y = Q(x)
+        </div>
+        <div class="formula">
+          <span class="formula-label">Integrating Factor</span>
+          $$\mu(x) = e^{\int P(x)\,dx}$$
+        </div>
+        <div class="def">
+          <div class="def-label">Method</div>
+          <ol class="steps">
+            <li>Write in standard form: y′ + P(x)y = Q(x)</li>
+            <li>Compute μ(x) = e<sup>∫P dx</sup></li>
+            <li>Multiply both sides by μ: d/dx[μy] = μQ</li>
+            <li>Integrate both sides: μy = ∫μQ dx + C</li>
+            <li>Solve for y: y = (1/μ)[∫μQ dx + C]</li>
+          </ol>
+        </div>
+        <div class="example">
+          <div class="example-label">Example</div>
+          y′ + (2/x)y = x², P = 2/x, Q = x²<br>
+          μ = e<sup>∫2/x dx</sup> = e<sup>2 ln x</sup> = x²<br>
+          d/dx[x²y] = x⁴ → x²y = x⁵/5 + C → <strong>y = x³/5 + C/x²</strong>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §4.4 Applied Models ─── -->
+  <div class="section">
+    <div class="section-title">§4.4 Applied Models</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Exponential Models</div>
+        <table class="tbl">
+          <thead><tr><th>Model</th><th>ODE</th><th>Solution</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Population growth</td>
+              <td>dP/dt = kP</td>
+              <td>P = P₀e<sup>kt</sup> &nbsp;(k &gt; 0)</td>
+            </tr>
+            <tr>
+              <td>Radioactive decay</td>
+              <td>dN/dt = −λN</td>
+              <td>N = N₀e<sup>−λt</sup></td>
+            </tr>
+            <tr>
+              <td>Newton's cooling</td>
+              <td>dT/dt = k(T−T<sub>env</sub>)</td>
+              <td>T−T<sub>env</sub> = (T₀−T<sub>env</sub>)e<sup>kt</sup></td>
+            </tr>
+            <tr>
+              <td>Compound interest</td>
+              <td>dA/dt = rA</td>
+              <td>A = A₀e<sup>rt</sup></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="formula">
+          <span class="formula-label">Half-life & Doubling Time</span>
+          $$t_{1/2} = \frac{\ln 2}{\lambda} \qquad t_d = \frac{\ln 2}{k}$$
+        </div>
+        <div class="example">
+          <div class="example-label">Carbon Dating</div>
+          t = [ln(N/N₀)] / (−0.000121) where 0.000121 ≈ ln 2 / 5730 yr<sup>−1</sup>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Logistic Growth</div>
+        <div class="def">
+          <div class="def-label">Model</div>
+          <span class="tt" data-t="Models bounded population growth; grows like exponential near 0, levels off at carrying capacity K">Logistic equation</span> — population growth with carrying capacity K:
+        </div>
+        <div class="formula">
+          <span class="formula-label">Logistic ODE</span>
+          $$\frac{dP}{dt} = rP\!\left(1 - \frac{P}{K}\right)$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Logistic Solution</span>
+          $$P(t) = \frac{K}{1+Ae^{-rt}} \qquad \text{where }A = \frac{K-P_0}{P_0}$$
+        </div>
+        <ul class="items">
+          <li><strong>K</strong> = <span class="tt" data-t="The maximum sustainable population; the environment's limit">carrying capacity</span> (horizontal asymptote)</li>
+          <li><strong>r</strong> = intrinsic growth rate</li>
+          <li>P = K/2 is the <span class="tt" data-t="The point of fastest growth on the logistic curve; inflection point of S-shaped curve">inflection point</span> (fastest growth)</li>
+          <li>P → K as t → ∞</li>
+        </ul>
+        <div class="note">
+          <div class="note-label">Equilibrium Analysis</div>
+          Equilibria at P = 0 (unstable) and P = K (stable).
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end .page-body -->
+
+<footer class="chapter-footer">
+  <a href="CH03-Techniques-Integration-CheatSheet.html">← Techniques of Integration</a>
+  <span class="footer-center">Calculus Volume 2 · OpenStax · CH4</span>
+  <a href="CH05-Sequences-Series-CheatSheet.html">Sequences and Series →</a>
+</footer>
+
+<script>
+(function(){
+  var toc=document.getElementById('page-toc');if(!toc)return;
+  var hdr=toc.querySelector('.toc-hdr');
+  var chev=document.createElement('span');chev.className='toc-chevron';chev.textContent='▾';hdr.appendChild(chev);
+  var body=document.createElement('div');body.className='toc-body';toc.appendChild(body);
+  var STORE='toc-cal2-4';
+  function applyState(c){toc.classList.toggle('toc-collapsed',c);toc.classList.toggle('toc-open',!c);}
+  applyState(localStorage.getItem(STORE)==='1');
+  hdr.addEventListener('click',function(){var c=!toc.classList.contains('toc-collapsed');applyState(c);localStorage.setItem(STORE,c?'1':'0');});
+  var cards=Array.from(document.querySelectorAll('.card'));
+  cards.forEach(function(card,i){
+    var title=card.querySelector('.card-title');if(!title)return;
+    var id='card-'+i;card.id=id;
+    var a=document.createElement('a');a.className='toc-link';a.href='#'+id;
+    a.textContent=title.textContent.trim();
+    a.onclick=function(e){e.preventDefault();card.scrollIntoView({behavior:'smooth',block:'start'});card.classList.remove('card-focus');void card.offsetWidth;card.classList.add('card-focus');setTimeout(function(){card.classList.remove('card-focus');},900);};
+    body.appendChild(a);
+  });
+  var links=Array.from(body.querySelectorAll('.toc-link'));
+  function updateActive(){var mid=window.scrollY+window.innerHeight*0.3;var best=null,bestDist=Infinity;cards.forEach(function(c){if(!c.id)return;var top=c.getBoundingClientRect().top+window.scrollY;var dist=Math.abs(top-mid);if(dist<bestDist){bestDist=dist;best=c.id;}});links.forEach(function(l){l.classList.toggle('active',!!(best&&l.href.endsWith('#'+best)));});}
+  window.addEventListener('scroll',updateActive,{passive:true});updateActive();
+  document.querySelectorAll('.tt').forEach(function(el){
+    el.addEventListener('mouseenter',function(){var r=el.getBoundingClientRect(),w=220,cx=r.left+r.width/2,shift=0;if(cx-w/2<10)shift=10-(cx-w/2);else if(cx+w/2>window.innerWidth-10)shift=window.innerWidth-10-(cx+w/2);el.style.setProperty('--tt-shift',shift+'px');});
+    el.addEventListener('mouseleave',function(){el.style.removeProperty('--tt-shift');});
+  });
+})();
+</script>
+<script src="../katex.js"></script>
+</body>
+</html>

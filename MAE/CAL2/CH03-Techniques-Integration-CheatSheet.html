@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Techniques of Integration — Calculus II Cheatsheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Sans+Condensed:wght@700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../shared.css"/>
+  <link rel="stylesheet" href="cal2.css"/>
+</head>
+<body>
+<nav id="page-toc"><div class="toc-hdr">Contents</div></nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">MAE · CAL2 · Chapter 3</div>
+    <h1>Techniques of Integration <span>— Chapter 3</span></h1>
+    <p class="page-subtitle">Integration by parts (LIATE), trigonometric integrals, trigonometric substitution (3 cases), partial fractions (4 cases), and improper integrals (Types I & II) with the comparison test.</p>
+    <span class="page-badge">CAL2 · CH3 · §3.1–§3.7</span>
+  </div>
+</header>
+
+<div class="page-body">
+
+  <!-- ─── §3.1 Integration by Parts ─── -->
+  <div class="section">
+    <div class="section-title">§3.1 Integration by Parts</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>IBP Formula & Derivation</div>
+        <div class="theorem">
+          <div class="theorem-label">Theorem — Integration by Parts</div>
+          Derived from the product rule d(uv) = u dv + v du:<br><br>
+          <strong>∫ u dv = uv − ∫ v du</strong>
+        </div>
+        <div class="def">
+          <div class="def-label">LIATE Rule (choose u)</div>
+          <span class="tt" data-t="Logarithmic, Inverse trig, Algebraic, Trigonometric, Exponential — priority order for choosing u in IBP">LIATE</span> gives priority for choosing u:
+        </div>
+        <ol class="steps">
+          <li><strong>L</strong>ogarithmic: ln x, log<sub>a</sub>x</li>
+          <li><strong>I</strong>nverse trig: arcsin, arctan, etc.</li>
+          <li><strong>A</strong>lgebraic: x<sup>n</sup>, polynomials</li>
+          <li><strong>T</strong>rigonometric: sin, cos, tan…</li>
+          <li><strong>E</strong>xponential: e<sup>x</sup>, a<sup>x</sup></li>
+        </ol>
+        <div class="example">
+          <div class="example-label">Example</div>
+          ∫ x e<sup>x</sup> dx: u = x, dv = e<sup>x</sup>dx<br>
+          du = dx, v = e<sup>x</sup><br>
+          = xe<sup>x</sup> − ∫ e<sup>x</sup> dx = xe<sup>x</sup> − e<sup>x</sup> + C = e<sup>x</sup>(x−1) + C
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>IBP Strategies & Special Cases</div>
+        <div class="def">
+          <div class="def-label">Repeated IBP (Tabular Method)</div>
+          For ∫ x<sup>n</sup> e<sup>x</sup> dx (or trig): apply IBP n times. Use tabular method: alternate signs, differentiate u-column, integrate dv-column.
+        </div>
+        <div class="example">
+          <div class="example-label">Tabular Example — ∫ x² e<sup>x</sup> dx</div>
+          <table class="tbl">
+            <thead><tr><th>Sign</th><th>Diff (u)</th><th>Int (dv)</th></tr></thead>
+            <tbody>
+              <tr><td>+</td><td>x²</td><td>e<sup>x</sup></td></tr>
+              <tr><td>−</td><td>2x</td><td>e<sup>x</sup></td></tr>
+              <tr><td>+</td><td>2</td><td>e<sup>x</sup></td></tr>
+              <tr><td>−</td><td>0</td><td>e<sup>x</sup></td></tr>
+            </tbody>
+          </table>
+          Result: e<sup>x</sup>(x²−2x+2) + C
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Circular IBP (Algebraic Loop)</div>
+          When IBP leads back to the original integral I:<br>
+          I = (result) − k·I → solve: I = (result)/(1+k) + C<br>
+          <em>Example: ∫ e<sup>x</sup>sin x dx</em>
+        </div>
+        <div class="formula">
+          <span class="formula-label">Definite Integral IBP</span>
+          $$\int_a^b u\,dv = \bigl[uv\bigr]_a^b - \int_a^b v\,du$$
+        </div>
+        <figure class="math-fig">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/54/IBP_geometric.svg" alt="Geometric interpretation of IBP" loading="lazy"/>
+  <figcaption>Geometric interpretation of IBP: $\int u\,dv + \int v\,du = uv$</figcaption>
+</figure>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §3.2 Trig Integrals ─── -->
+  <div class="section">
+    <div class="section-title">§3.2 Trigonometric Integrals</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>∫ sinᵐx cosⁿx dx — Strategy</div>
+        <div class="def">
+          <div class="def-label">Three Cases</div>
+        </div>
+        <ul class="items">
+          <li><strong>m odd:</strong> save sin x · dx for du; use cos²x = 1−sin²x for the rest; sub u = cos x</li>
+          <li><strong>n odd:</strong> save cos x · dx for du; use sin²x = 1−cos²x; sub u = sin x</li>
+          <li><strong>m,n both even:</strong> use half-angle identities:<br>sin²x = (1−cos 2x)/2<br>cos²x = (1+cos 2x)/2</li>
+        </ul>
+        <div class="formula">
+          <span class="formula-label">Key Pythagorean Identities</span>
+          $$\sin^2 x+\cos^2 x=1 \qquad 1+\tan^2 x=\sec^2 x \qquad 1+\cot^2 x=\csc^2 x$$
+        </div>
+        <div class="example">
+          <div class="example-label">Example — n odd</div>
+          ∫ sin²x cos³x dx = ∫ sin²x cos²x cos x dx<br>
+          = ∫ sin²x(1−sin²x) cos x dx &nbsp; [u = sin x]<br>
+          = u³/3 − u⁵/5 + C = sin³x/3 − sin⁵x/5 + C
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>∫ tanᵐx secⁿx dx & Reduction Formulas</div>
+        <div class="def">
+          <div class="def-label">Strategy</div>
+        </div>
+        <ul class="items">
+          <li><strong>n even:</strong> save sec²x for du; use tan²x = sec²x−1; sub u = tan x</li>
+          <li><strong>m odd:</strong> save sec x tan x for du; use tan²x = sec²x−1; sub u = sec x</li>
+          <li><strong>m even, n odd:</strong> use reduction formulas</li>
+        </ul>
+        <div class="formula">
+          <span class="formula-label">Reduction Formulas</span>
+          $$\int \sin^n x\,dx = -\frac{\sin^{n-1}x\cos x}{n} + \frac{n-1}{n}\int \sin^{n-2}x\,dx$$
+          $$\int \cos^n x\,dx = \frac{\cos^{n-1}x\sin x}{n} + \frac{n-1}{n}\int \cos^{n-2}x\,dx$$
+          $$\int \tan^n x\,dx = \frac{\tan^{n-1}x}{n-1} - \int \tan^{n-2}x\,dx$$
+          $$\int \sec^n x\,dx = \frac{\sec^{n-2}x\tan x}{n-1} + \frac{n-2}{n-1}\int \sec^{n-2}x\,dx$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Special Values</span>
+          $$\int\tan x\,dx = \ln|\sec x|+C \qquad \int\sec x\,dx = \ln|\sec x+\tan x|+C$$
+          $$\int\cot x\,dx = \ln|\sin x|+C \qquad \int\csc x\,dx = -\ln|\csc x+\cot x|+C$$
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §3.3 Trig Substitution ─── -->
+  <div class="section">
+    <div class="section-title">§3.3 Trigonometric Substitution</div>
+    <div class="grid grid-2">
+
+      <div class="card col-span-2">
+        <div class="card-title"><div class="dot"></div>Three Cases of Trig Substitution</div>
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Expression</th>
+              <th>Substitution</th>
+              <th>Identity Used</th>
+              <th>Result</th>
+              <th>θ Range</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>√(a²−x²)</td>
+              <td>x = a sin θ, dx = a cos θ dθ</td>
+              <td>1−sin²θ = cos²θ</td>
+              <td>a cos θ</td>
+              <td>−π/2 ≤ θ ≤ π/2</td>
+            </tr>
+            <tr>
+              <td>√(a²+x²)</td>
+              <td>x = a tan θ, dx = a sec²θ dθ</td>
+              <td>1+tan²θ = sec²θ</td>
+              <td>a sec θ</td>
+              <td>−π/2 &lt; θ &lt; π/2</td>
+            </tr>
+            <tr>
+              <td>√(x²−a²)</td>
+              <td>x = a sec θ, dx = a sec θ tan θ dθ</td>
+              <td>sec²θ−1 = tan²θ</td>
+              <td>a tan θ</td>
+              <td>0 ≤ θ &lt; π/2 or π ≤ θ &lt; 3π/2</td>
+            </tr>
+          </tbody>
+        </table>
+        <figure class="math-fig">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Trig_substitution.svg" alt="Trig substitution reference triangles" loading="lazy"/>
+  <figcaption>Reference triangles for the three trig substitution cases</figcaption>
+</figure>
+        <div class="note">
+          <div class="note-label">Back-substitution: Reference Triangle</div>
+          Draw a right triangle: label sides based on substitution, then read off sin, cos, tan in terms of x. <span class="tt" data-t="After integrating in θ, use the reference triangle to convert back to x. For x = a sin θ: sin θ = x/a, cos θ = √(a²−x²)/a">Reference triangle method</span> ensures clean back-substitution.
+        </div>
+        <div class="example">
+          <div class="example-label">Example — Case 1</div>
+          ∫ √(9−x²) dx: x = 3 sin θ, dx = 3 cos θ dθ, √(9−x²) = 3 cos θ<br>
+          = ∫ 9 cos²θ dθ = (9/2)(θ + sin θ cos θ) + C<br>
+          = (9/2)[arcsin(x/3) + (x/3)(√(9−x²)/3)] + C = (9/2)arcsin(x/3) + (x√(9−x²))/2 + C
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §3.4 Partial Fractions ─── -->
+  <div class="section">
+    <div class="section-title">§3.4 Partial Fraction Decomposition</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Partial Fractions — Four Cases</div>
+        <div class="def">
+          <div class="def-label">Prerequisite</div>
+          Degree of numerator must be &lt; degree of denominator. If not, perform <span class="tt" data-t="Divide numerator by denominator to get a polynomial plus a proper rational function">polynomial long division</span> first.
+        </div>
+        <table class="tbl">
+          <thead><tr><th>Factor in denominator</th><th>Partial fraction term(s)</th></tr></thead>
+          <tbody>
+            <tr><td>Linear: (ax+b)</td><td>A/(ax+b)</td></tr>
+            <tr><td>Repeated linear: (ax+b)ⁿ</td><td>A₁/(ax+b) + A₂/(ax+b)² + … + Aₙ/(ax+b)ⁿ</td></tr>
+            <tr><td>Irreducible quadratic: (ax²+bx+c)</td><td>(Ax+B)/(ax²+bx+c)</td></tr>
+            <tr><td>Repeated quadratic: (ax²+bx+c)ⁿ</td><td>(A₁x+B₁)/(…) + … + (Aₙx+Bₙ)/(…)ⁿ</td></tr>
+          </tbody>
+        </table>
+        <div class="note">
+          <div class="note-label">Check Irreducibility</div>
+          ax²+bx+c is irreducible (over ℝ) when b²−4ac &lt; 0.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Solving & Integrating Partial Fractions</div>
+        <div class="def">
+          <div class="def-label">Method</div>
+          <ol class="steps">
+            <li>Factor the denominator completely</li>
+            <li>Write the partial fraction form</li>
+            <li>Multiply both sides by the full denominator</li>
+            <li>Expand and equate coefficients (or plug in strategic x values to find constants)</li>
+            <li>Integrate each partial fraction</li>
+          </ol>
+        </div>
+        <div class="formula">
+          <span class="formula-label">Integration of Each Type</span>
+          $$\frac{A}{ax+b} \;\to\; \frac{A}{a}\ln|ax+b|+C$$
+          $$\frac{A}{(ax+b)^n} \;\to\; \frac{-A}{(n-1)(ax+b)^{n-1}}+C \quad(n\geq 2)$$
+          $$\frac{Ax+B}{x^2+k^2} \;\to\; \frac{A}{2}\ln(x^2+k^2)+\frac{B}{k}\arctan\!\frac{x}{k}+C$$
+        </div>
+        <div class="example">
+          <div class="example-label">Example</div>
+          ∫ 1/((x+1)(x+2)) dx = ∫[1/(x+1) − 1/(x+2)] dx<br>
+          = ln|x+1| − ln|x+2| + C = ln|(x+1)/(x+2)| + C
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §3.7 Improper Integrals ─── -->
+  <div class="section">
+    <div class="section-title">§3.7 Improper Integrals</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Type I: Infinite Limits</div>
+        <div class="def">
+          <div class="def-label">Definition</div>
+          <span class="tt" data-t="Integral over an unbounded domain; defined as a limit of a proper integral">Type I improper integrals</span> have infinite limits:
+        </div>
+        <div class="formula">
+          <span class="formula-label">One Infinite Limit</span>
+          $$\int_a^{\infty} f(x)\,dx = \lim_{t\to\infty}\int_a^t f(x)\,dx \qquad \int_{-\infty}^b f(x)\,dx = \lim_{t\to-\infty}\int_t^b f(x)\,dx$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Both Limits Infinite</span>
+          $$\int_{-\infty}^{\infty} f\,dx = \int_{-\infty}^c f\,dx + \int_c^{\infty} f\,dx \quad\text{(split at any }c\text{)}$$
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">p-integral Test</div>
+          ∫<sub>1</sub><sup>∞</sup> x<sup>−p</sup> dx <strong>converges</strong> if p &gt; 1, <strong>diverges</strong> if p ≤ 1.
+        </div>
+        <div class="example">
+          <div class="example-label">Classic Example</div>
+          ∫<sub>1</sub><sup>∞</sup> e<sup>−x</sup> dx = lim<sub>t→∞</sub>[−e<sup>−x</sup>]<sub>1</sub><sup>t</sup> = 0−(−e<sup>−1</sup>) = 1/e ✓ converges
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Type II: Discontinuous Integrand</div>
+        <div class="def">
+          <div class="def-label">Definition</div>
+          <span class="tt" data-t="Integral where the integrand has a vertical asymptote at one or both endpoints or inside the interval">Type II improper integrals</span> have a discontinuity:
+        </div>
+        <div class="formula">
+          <span class="formula-label">Discontinuity at Right Endpoint b</span>
+          $$\int_a^b f(x)\,dx = \lim_{t\to b^-}\int_a^t f(x)\,dx$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Discontinuity at Left Endpoint a</span>
+          $$\int_a^b f(x)\,dx = \lim_{t\to a^+}\int_t^b f(x)\,dx$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Discontinuity at Interior Point c</span>
+          $$\int_a^b = \int_a^c + \int_c^b \quad\text{(both must converge)}$$
+        </div>
+        <div class="warn">
+          <strong>Caution:</strong> ∫<sub>−1</sub><sup>1</sup> 1/x dx ≠ 0 — it diverges! Always check for discontinuities inside [a, b].
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Comparison Test for Improper Integrals</div>
+          If 0 ≤ f(x) ≤ g(x) for x ≥ a:<br>
+          • ∫<sub>a</sub><sup>∞</sup> g converges ⟹ ∫<sub>a</sub><sup>∞</sup> f converges<br>
+          • ∫<sub>a</sub><sup>∞</sup> f diverges ⟹ ∫<sub>a</sub><sup>∞</sup> g diverges
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end .page-body -->
+
+<footer class="chapter-footer">
+  <a href="CH02-Applications-Integration-CheatSheet.html">← Applications of Integration</a>
+  <span class="footer-center">Calculus Volume 2 · OpenStax · CH3</span>
+  <a href="CH04-Differential-Equations-CheatSheet.html">Differential Equations →</a>
+</footer>
+
+<script>
+(function(){
+  var toc=document.getElementById('page-toc');if(!toc)return;
+  var hdr=toc.querySelector('.toc-hdr');
+  var chev=document.createElement('span');chev.className='toc-chevron';chev.textContent='▾';hdr.appendChild(chev);
+  var body=document.createElement('div');body.className='toc-body';toc.appendChild(body);
+  var STORE='toc-cal2-3';
+  function applyState(c){toc.classList.toggle('toc-collapsed',c);toc.classList.toggle('toc-open',!c);}
+  applyState(localStorage.getItem(STORE)==='1');
+  hdr.addEventListener('click',function(){var c=!toc.classList.contains('toc-collapsed');applyState(c);localStorage.setItem(STORE,c?'1':'0');});
+  var cards=Array.from(document.querySelectorAll('.card'));
+  cards.forEach(function(card,i){
+    var title=card.querySelector('.card-title');if(!title)return;
+    var id='card-'+i;card.id=id;
+    var a=document.createElement('a');a.className='toc-link';a.href='#'+id;
+    a.textContent=title.textContent.trim();
+    a.onclick=function(e){e.preventDefault();card.scrollIntoView({behavior:'smooth',block:'start'});card.classList.remove('card-focus');void card.offsetWidth;card.classList.add('card-focus');setTimeout(function(){card.classList.remove('card-focus');},900);};
+    body.appendChild(a);
+  });
+  var links=Array.from(body.querySelectorAll('.toc-link'));
+  function updateActive(){var mid=window.scrollY+window.innerHeight*0.3;var best=null,bestDist=Infinity;cards.forEach(function(c){if(!c.id)return;var top=c.getBoundingClientRect().top+window.scrollY;var dist=Math.abs(top-mid);if(dist<bestDist){bestDist=dist;best=c.id;}});links.forEach(function(l){l.classList.toggle('active',!!(best&&l.href.endsWith('#'+best)));});}
+  window.addEventListener('scroll',updateActive,{passive:true});updateActive();
+  document.querySelectorAll('.tt').forEach(function(el){
+    el.addEventListener('mouseenter',function(){var r=el.getBoundingClientRect(),w=220,cx=r.left+r.width/2,shift=0;if(cx-w/2<10)shift=10-(cx-w/2);else if(cx+w/2>window.innerWidth-10)shift=window.innerWidth-10-(cx+w/2);el.style.setProperty('--tt-shift',shift+'px');});
+    el.addEventListener('mouseleave',function(){el.style.removeProperty('--tt-shift');});
+  });
+})();
+</script>
+<script src="../katex.js"></script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Sequences and Series — Calculus II Cheatsheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Sans+Condensed:wght@700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../shared.css"/>
+  <link rel="stylesheet" href="cal2.css"/>
+</head>
+<body>
+<nav id="page-toc"><div class="toc-hdr">Contents</div></nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">MAE · CAL2 · Chapter 5</div>
+    <h1>Sequences and Series <span>— Chapter 5</span></h1>
+    <p class="page-subtitle">Sequences (limits, monotone convergence), series (partial sums, geometric, harmonic, p-series), and all major convergence tests: divergence, integral, comparison, limit comparison, alternating series, ratio, root.</p>
+    <span class="page-badge">CAL2 · CH5 · §5.1–§5.6</span>
+  </div>
+</header>
+
+<div class="page-body">
+
+  <!-- ─── §5.1 Sequences ─── -->
+  <div class="section">
+    <div class="section-title">§5.1 Sequences</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Sequence Definitions & Notation</div>
+        <div class="def">
+          <div class="def-label">Definition</div>
+          An <span class="tt" data-t="An ordered list of numbers {a₁, a₂, a₃, …} indexed by positive integers">infinite sequence</span> {a<sub>n</sub>}<sub>n=1</sub><sup>∞</sup> is a function from ℤ⁺ to ℝ.
+        </div>
+        <ul class="items">
+          <li><strong>Explicit:</strong> a<sub>n</sub> = f(n) directly (e.g., a<sub>n</sub> = 1/n)</li>
+          <li><strong>Recursive:</strong> defined in terms of prior terms (e.g., a<sub>n+1</sub> = a<sub>n</sub>/2)</li>
+          <li><strong>Bounded above:</strong> ∃M such that a<sub>n</sub> ≤ M for all n</li>
+          <li><strong>Bounded below:</strong> ∃m such that a<sub>n</sub> ≥ m for all n</li>
+          <li><strong>Monotone increasing:</strong> a<sub>n+1</sub> ≥ a<sub>n</sub> for all n</li>
+          <li><strong>Monotone decreasing:</strong> a<sub>n+1</sub> ≤ a<sub>n</sub> for all n</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Limits of Sequences</div>
+        <div class="def">
+          <div class="def-label">Definition</div>
+          lim<sub>n→∞</sub> a<sub>n</sub> = L means a<sub>n</sub> can be made arbitrarily close to L for all sufficiently large n. If the limit exists, the sequence <span class="tt" data-t="The sequence has a finite limit; it settles toward a specific value">converges</span>; otherwise it <span class="tt" data-t="The sequence does not approach any fixed value; it oscillates or grows without bound">diverges</span>.
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Squeeze Theorem</div>
+          If a<sub>n</sub> ≤ b<sub>n</sub> ≤ c<sub>n</sub> and lim a<sub>n</sub> = lim c<sub>n</sub> = L, then lim b<sub>n</sub> = L.
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Monotone Convergence Theorem</div>
+          Every bounded monotone sequence converges. Specifically:<br>
+          • Bounded above & increasing → converges to sup<br>
+          • Bounded below & decreasing → converges to inf
+        </div>
+        <div class="formula">
+          <span class="formula-label">Key Sequence Limits</span>
+          $$\lim_{n\to\infty} n^{1/n}=1 \;\Big|\; \lim_{n\to\infty}\!\left(1+\tfrac{1}{n}\right)^n = e \;\Big|\; \lim r^n=0\text{ if }|r|<1 \;\Big|\; \lim\frac{n^p}{e^n}=0$$
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §5.2 Series ─── -->
+  <div class="section">
+    <div class="section-title">§5.2 Series: Definitions & Special Series</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Series & Partial Sums</div>
+        <div class="def">
+          <div class="def-label">Definition</div>
+          An <span class="tt" data-t="Sum of infinitely many terms; defined as the limit of its partial sums">infinite series</span>: Σ<sub>n=1</sub><sup>∞</sup> a<sub>n</sub> = a₁ + a₂ + a₃ + …<br><br>
+          The <strong>nth partial sum</strong>: S<sub>n</sub> = Σ<sub>k=1</sub><sup>n</sup> a<sub>k</sub><br><br>
+          The series <strong>converges</strong> iff lim<sub>n→∞</sub> S<sub>n</sub> = S (finite).
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Divergence Test (nth Term Test)</div>
+          If lim<sub>n→∞</sub> a<sub>n</sub> ≠ 0, then Σa<sub>n</sub> diverges.<br>
+          <span style="color:var(--red)">⚠ Converse FALSE:</span> lim a<sub>n</sub> = 0 does <em>not</em> guarantee convergence (e.g., harmonic series).
+        </div>
+        <div class="note">
+          <div class="note-label">Telescoping Series</div>
+          Σ(b<sub>n</sub> − b<sub>n+1</sub>) = b₁ − lim<sub>n→∞</sub> b<sub>n+1</sub><br>
+          e.g., Σ 1/(n(n+1)) = Σ[1/n − 1/(n+1)] = 1
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Geometric & p-Series</div>
+        <div class="theorem">
+          <div class="theorem-label">Geometric Series</div>
+          Σ<sub>n=0</sub><sup>∞</sup> ar<sup>n</sup> = a/(1−r) &nbsp;if |r| &lt; 1<br>
+          <strong>Diverges</strong> if |r| ≥ 1
+        </div>
+        <div class="formula">
+          <span class="formula-label">Partial Sum of Geometric Series</span>
+          $$S_n = \frac{a(1-r^n)}{1-r} \quad (r\neq 1)$$
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">p-Series</div>
+          Σ<sub>n=1</sub><sup>∞</sup> 1/n<sup>p</sup>:
+          <br>• <strong>Converges</strong> if p &gt; 1
+          <br>• <strong>Diverges</strong> if p ≤ 1
+        </div>
+        <div class="note">
+          <div class="note-label">Special Cases</div>
+          p = 1: <span class="tt" data-t="Σ 1/n; diverges despite terms going to 0; proved by grouping or integral test">harmonic series</span> Σ1/n — diverges<br>
+          p = 2: Basel series Σ1/n² = π²/6 — converges
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §5.3 Divergence & Integral Tests ─── -->
+  <div class="section">
+    <div class="section-title">§5.3 The Integral Test & §5.4 Comparison Tests</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Integral Test</div>
+        <div class="theorem">
+          <div class="theorem-label">Integral Test</div>
+          If f is continuous, positive, and decreasing on [1,∞), and a<sub>n</sub> = f(n), then:<br><br>
+          Σ<sub>n=1</sub><sup>∞</sup> a<sub>n</sub> and ∫<sub>1</sub><sup>∞</sup> f(x) dx <strong>both converge or both diverge</strong>.
+        </div>
+        <div class="note">
+          <div class="note-label">Remainder Estimate</div>
+          If the series converges, the tail error after n terms satisfies:<br>
+          ∫<sub>n+1</sub><sup>∞</sup> f dx ≤ R<sub>n</sub> ≤ ∫<sub>n</sub><sup>∞</sup> f dx
+        </div>
+        <div class="example">
+          <div class="example-label">Example</div>
+          Test Σ 1/(n ln²n): f(x) = 1/(x ln²x)<br>
+          ∫ dx/(x ln²x) = −1/ln x → converges (=1/ln 2)
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Direct Comparison & Limit Comparison Tests</div>
+        <div class="theorem">
+          <div class="theorem-label">Direct Comparison Test</div>
+          If 0 ≤ a<sub>n</sub> ≤ b<sub>n</sub> for all n ≥ N:<br>
+          • Σb<sub>n</sub> converges ⟹ Σa<sub>n</sub> converges<br>
+          • Σa<sub>n</sub> diverges ⟹ Σb<sub>n</sub> diverges
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Limit Comparison Test</div>
+          If a<sub>n</sub>, b<sub>n</sub> &gt; 0 and lim<sub>n→∞</sub> (a<sub>n</sub>/b<sub>n</sub>) = L &gt; 0 (finite),<br>
+          then Σa<sub>n</sub> and Σb<sub>n</sub> <strong>both converge or both diverge</strong>.
+        </div>
+        <div class="note">
+          <div class="note-label">Strategy</div>
+          Compare to a <span class="tt" data-t="Geometric series or p-series; choose the one with same asymptotic behavior as aₙ">geometric or p-series</span>. Limit comparison is safer when direct comparison inequality is hard to establish.
+        </div>
+        <div class="example">
+          <div class="example-label">Example — LCT</div>
+          Σ (2n+1)/(n²+3): compare to Σ 1/n<br>
+          lim (2n+1)/(n²+3) ÷ (1/n) = lim (2n²+n)/(n²+3) = 2 → same behavior → diverges
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §5.5 Alternating Series ─── -->
+  <div class="section">
+    <div class="section-title">§5.5 Alternating Series & Absolute Convergence</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Alternating Series Test (Leibniz)</div>
+        <div class="def">
+          <div class="def-label">Form</div>
+          <span class="tt" data-t="A series whose terms alternate in sign; written as Σ(−1)ⁿaₙ or Σ(−1)ⁿ⁺¹aₙ where aₙ > 0">Alternating series:</span> Σ (−1)<sup>n+1</sup> a<sub>n</sub> = a₁−a₂+a₃−…
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Alternating Series Test (AST)</div>
+          If (1) a<sub>n</sub> &gt; 0, (2) a<sub>n+1</sub> ≤ a<sub>n</sub> (decreasing), and (3) lim a<sub>n</sub> = 0, then the alternating series <strong>converges</strong>.
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Alternating Series Estimation</div>
+          |Error| = |S − S<sub>n</sub>| ≤ a<sub>n+1</sub> (the first neglected term)
+        </div>
+        <div class="example">
+          <div class="example-label">Alternating Harmonic Series</div>
+          Σ (−1)<sup>n+1</sup>/n = 1−1/2+1/3−… = ln 2 ✓ converges
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Absolute vs. Conditional Convergence</div>
+        <div class="def">
+          <div class="def-label">Absolute Convergence</div>
+          Σa<sub>n</sub> is <span class="tt" data-t="A series is absolutely convergent if the series of absolute values Σ|aₙ| converges; stronger than ordinary convergence">absolutely convergent</span> if Σ|a<sub>n</sub>| converges.
+        </div>
+        <div class="def">
+          <div class="def-label">Conditional Convergence</div>
+          Σa<sub>n</sub> is <span class="tt" data-t="A series that converges but Σ|aₙ| diverges; e.g., the alternating harmonic series">conditionally convergent</span> if Σa<sub>n</sub> converges but Σ|a<sub>n</sub>| diverges.
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Key Implication</div>
+          Absolute convergence ⟹ convergence (but not vice versa).
+        </div>
+        <div class="note">
+          <div class="note-label">Rearrangement</div>
+          Riemann Rearrangement Theorem: A conditionally convergent series can be rearranged to converge to any real number!
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §5.6 Ratio & Root Tests ─── -->
+  <div class="section">
+    <div class="section-title">§5.6 Ratio & Root Tests</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Ratio Test</div>
+        <div class="theorem">
+          <div class="theorem-label">Ratio Test</div>
+          Let L = lim<sub>n→∞</sub> |a<sub>n+1</sub>/a<sub>n</sub>|. Then:<br><br>
+          • L &lt; 1 → Σa<sub>n</sub> <strong>converges absolutely</strong><br>
+          • L &gt; 1 (or L = ∞) → Σa<sub>n</sub> <strong>diverges</strong><br>
+          • L = 1 → test is <strong>inconclusive</strong>
+        </div>
+        <div class="note">
+          <div class="note-label">Best Used For</div>
+          Series involving <span class="tt" data-t="Factorial n! = 1·2·3···n; the ratio aₙ₊₁/aₙ simplifies nicely">factorials</span> (n!), exponentials (a<sup>n</sup>), or products of these.
+        </div>
+        <div class="example">
+          <div class="example-label">Example</div>
+          Σ n!/n<sup>n</sup>: L = lim (n+1)!/(n+1)<sup>n+1</sup> · n<sup>n</sup>/n! = lim n<sup>n</sup>/(n+1)<sup>n</sup> = 1/e &lt; 1 ✓ converges
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Root Test & Test Summary</div>
+        <div class="theorem">
+          <div class="theorem-label">Root Test</div>
+          Let L = lim<sub>n→∞</sub> |a<sub>n</sub>|<sup>1/n</sup>. Then:<br><br>
+          • L &lt; 1 → Σa<sub>n</sub> <strong>converges absolutely</strong><br>
+          • L &gt; 1 (or L = ∞) → Σa<sub>n</sub> <strong>diverges</strong><br>
+          • L = 1 → test is <strong>inconclusive</strong>
+        </div>
+        <div class="note">
+          <div class="note-label">Best Used For</div>
+          Series where a<sub>n</sub> = f(n)<sup>n</sup> (nth power form).
+        </div>
+        <div class="note">
+          <div class="note-label">Convergence Test Quick-Pick</div>
+          <table class="tbl">
+            <thead><tr><th>Series type</th><th>Test to use</th></tr></thead>
+            <tbody>
+              <tr><td>Obvious limit ≠ 0</td><td>Divergence Test</td></tr>
+              <tr><td>Geometric / p-series</td><td>Direct formula</td></tr>
+              <tr><td>f(n) decreasing, positive</td><td>Integral Test</td></tr>
+              <tr><td>Compare to known series</td><td>DCT or LCT</td></tr>
+              <tr><td>Alternating signs</td><td>AST → check absolute</td></tr>
+              <tr><td>Contains n! or aⁿ</td><td>Ratio Test</td></tr>
+              <tr><td>Contains (f(n))ⁿ</td><td>Root Test</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end .page-body -->
+
+<footer class="chapter-footer">
+  <a href="CH04-Differential-Equations-CheatSheet.html">← Differential Equations</a>
+  <span class="footer-center">Calculus Volume 2 · OpenStax · CH5</span>
+  <a href="CH06-Power-Series-CheatSheet.html">Power Series →</a>
+</footer>
+
+<script>
+(function(){
+  var toc=document.getElementById('page-toc');if(!toc)return;
+  var hdr=toc.querySelector('.toc-hdr');
+  var chev=document.createElement('span');chev.className='toc-chevron';chev.textContent='▾';hdr.appendChild(chev);
+  var body=document.createElement('div');body.className='toc-body';toc.appendChild(body);
+  var STORE='toc-cal2-5';
+  function applyState(c){toc.classList.toggle('toc-collapsed',c);toc.classList.toggle('toc-open',!c);}
+  applyState(localStorage.getItem(STORE)==='1');
+  hdr.addEventListener('click',function(){var c=!toc.classList.contains('toc-collapsed');applyState(c);localStorage.setItem(STORE,c?'1':'0');});
+  var cards=Array.from(document.querySelectorAll('.card'));
+  cards.forEach(function(card,i){
+    var title=card.querySelector('.card-title');if(!title)return;
+    var id='card-'+i;card.id=id;
+    var a=document.createElement('a');a.className='toc-link';a.href='#'+id;
+    a.textContent=title.textContent.trim();
+    a.onclick=function(e){e.preventDefault();card.scrollIntoView({behavior:'smooth',block:'start'});card.classList.remove('card-focus');void card.offsetWidth;card.classList.add('card-focus');setTimeout(function(){card.classList.remove('card-focus');},900);};
+    body.appendChild(a);
+  });
+  var links=Array.from(body.querySelectorAll('.toc-link'));
+  function updateActive(){var mid=window.scrollY+window.innerHeight*0.3;var best=null,bestDist=Infinity;cards.forEach(function(c){if(!c.id)return;var top=c.getBoundingClientRect().top+window.scrollY;var dist=Math.abs(top-mid);if(dist<bestDist){bestDist=dist;best=c.id;}});links.forEach(function(l){l.classList.toggle('active',!!(best&&l.href.endsWith('#'+best)));});}
+  window.addEventListener('scroll',updateActive,{passive:true});updateActive();
+  document.querySelectorAll('.tt').forEach(function(el){
+    el.addEventListener('mouseenter',function(){var r=el.getBoundingClientRect(),w=220,cx=r.left+r.width/2,shift=0;if(cx-w/2<10)shift=10-(cx-w/2);else if(cx+w/2>window.innerWidth-10)shift=window.innerWidth-10-(cx+w/2);el.style.setProperty('--tt-shift',shift+'px');});
+    el.addEventListener('mouseleave',function(){el.style.removeProperty('--tt-shift');});
+  });
+})();
+</script>
+<script src="../katex.js"></script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Applications of Integration — Calculus II Cheatsheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Sans+Condensed:wght@700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../shared.css"/>
+  <link rel="stylesheet" href="cal2.css"/>
+</head>
+<body>
+<nav id="page-toc"><div class="toc-hdr">Contents</div></nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">MAE · CAL2 · Chapter 2</div>
+    <h1>Applications of Integration <span>— Chapter 2</span></h1>
+    <p class="page-subtitle">Area between curves, volumes by slicing/disk/washer/shell, arc length, surface area of revolution, work, hydrostatic force, moments, center of mass, and exponential models.</p>
+    <span class="page-badge">CAL2 · CH2 · §2.1–§2.9</span>
+  </div>
+</header>
+
+<div class="page-body">
+
+  <!-- ─── §2.1 Area Between Curves ─── -->
+  <div class="section">
+    <div class="section-title">§2.1 Area Between Curves</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Area — Functions of x</div>
+        <div class="def">
+          <div class="def-label">Setup</div>
+          If f(x) ≥ g(x) on [a, b], the area between the curves is:
+        </div>
+        <div class="formula">
+          <span class="formula-label">Area (vertical slices)</span>
+          $$A = \int_a^b \bigl[f(x)-g(x)\bigr]\,dx$$
+        </div>
+        <div class="note">
+          <div class="note-label">When curves cross</div>
+          Find intersection points, split integral, and use |f − g| on each subinterval.
+        </div>
+        <div class="example">
+          <div class="example-label">Example</div>
+          Area between y = x² and y = x: intersect at x = 0, 1<br>
+          A = ∫<sub>0</sub><sup>1</sup>(x − x²) dx = [x²/2 − x³/3]<sub>0</sub><sup>1</sup> = 1/6
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Area — Functions of y</div>
+        <div class="def">
+          <div class="def-label">Setup</div>
+          If <span class="tt" data-t="Express x as a function of y; integrate horizontally for curves that are hard to set up vertically">integrating with respect to y</span> is easier (e.g., sideways parabolas):
+        </div>
+        <div class="formula">
+          <span class="formula-label">Area (horizontal slices)</span>
+          $$A = \int_c^d \bigl[f(y)-g(y)\bigr]\,dy$$
+        </div>
+        <div class="note">
+          <div class="note-label">When to use</div>
+          Use horizontal slices when boundaries are expressed as x = f(y), or when it avoids splitting the integral at crossing points.
+        </div>
+        <div class="example">
+          <div class="example-label">Example</div>
+          Area between x = y² and x = y+2: intersect at y = −1, 2<br>
+          A = ∫<sub>−1</sub><sup>2</sup>((y+2) − y²) dy = [y²/2 + 2y − y³/3]<sub>−1</sub><sup>2</sup> = 9/2
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §2.2 & §2.3 Volumes ─── -->
+  <div class="section">
+    <div class="section-title">§2.2–§2.3 Volumes by Slicing & Revolution</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Volume by Slicing (General)</div>
+        <div class="theorem">
+          <div class="theorem-label">Principle</div>
+          If A(x) is the cross-sectional area at position x, then:
+        </div>
+        <div class="formula">
+          <span class="formula-label">General Volume by Slicing</span>
+          $$V = \int_a^b A(x)\,dx$$
+        </div>
+        <ul class="items">
+          <li>Square cross-sections: A = s²</li>
+          <li>Circular cross-sections: A = πr²</li>
+          <li>Equilateral triangle: A = (√3/4)s²</li>
+          <li>Semicircle: A = πr²/2</li>
+        </ul>
+        <div class="note">
+          <div class="note-label">Tip</div>
+          Identify the variable of integration by orienting the solid along that axis.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Disk & Washer Methods</div>
+        <div class="def">
+          <div class="def-label">Disk Method (solid revolution, no hole)</div>
+          Rotate f(x) about the x-axis:
+        </div>
+        <div class="formula">
+          <span class="formula-label">Disk Method</span>
+          $$V = \pi\int_a^b \bigl[f(x)\bigr]^2\,dx$$
+        </div>
+        <div class="def">
+          <div class="def-label">Washer Method (revolution with hole)</div>
+          Rotate region between f(x) ≥ g(x) ≥ 0 about x-axis:
+        </div>
+        <div class="formula">
+          <span class="formula-label">Washer Method</span>
+          $$V = \pi\int_a^b \Bigl(\bigl[f(x)\bigr]^2 - \bigl[g(x)\bigr]^2\Bigr)\,dx$$
+        </div>
+        <figure class="math-fig">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Disc_integration.svg" alt="Disk and washer method" loading="lazy"/>
+  <figcaption>Disk &amp; washer method — revolving about the $x$-axis</figcaption>
+</figure>
+        <div class="note">
+          <div class="note-label">About y-axis</div>
+          Replace x with y as the variable of integration; express functions as x = g(y).
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Shell Method (Cylindrical Shells)</div>
+        <div class="def">
+          <div class="def-label">Concept</div>
+          Rotate a thin vertical strip (shell) about the y-axis; integrate shells from x = a to x = b.
+        </div>
+        <div class="formula">
+          <span class="formula-label">Shell Method — About y-axis</span>
+          $$V = 2\pi\int_a^b x\,f(x)\,dx \quad (a\geq 0)$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Shell Method — About x-axis</span>
+          $$V = 2\pi\int_c^d y\,g(y)\,dy \quad (c\geq 0)$$
+        </div>
+        <figure class="math-fig">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Shell_integration.svg" alt="Shell method" loading="lazy"/>
+  <figcaption>Shell method — integrating parallel to the axis of revolution</figcaption>
+</figure>
+        <div class="theorem">
+          <div class="theorem-label">Shell vs Washer</div>
+          Use shells when <span class="tt" data-t="Integrating parallel to the axis of revolution is easier; avoids solving for the inverse function">integrating parallel</span> to the axis is easier. Shell: no need to solve for inverse function.
+        </div>
+        <div class="example">
+          <div class="example-label">Example</div>
+          Revolve y = x² (0 ≤ x ≤ 2) about y-axis:<br>
+          V = 2π ∫<sub>0</sub><sup>2</sup> x · x² dx = 2π [x⁴/4]<sub>0</sub><sup>2</sup> = 8π
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Method Selection Guide</div>
+        <table class="tbl">
+          <thead><tr><th>Axis</th><th>Disk/Washer</th><th>Shell</th></tr></thead>
+          <tbody>
+            <tr><td>x-axis</td><td>∫ f(x) dx vertically</td><td>∫ g(y) dy horizontally</td></tr>
+            <tr><td>y-axis</td><td>∫ g(y) dy horizontally</td><td>∫ f(x) dx vertically</td></tr>
+          </tbody>
+        </table>
+        <div class="note">
+          <div class="note-label">Decision Rule</div>
+          <ul class="items">
+            <li>If revolving about y-axis and function given as y = f(x) → use shells</li>
+            <li>If revolving about x-axis and function given as y = f(x) → use disk/washer</li>
+            <li>Choose whichever avoids solving for the inverse or splitting the region</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §2.4 Arc Length ─── -->
+  <div class="section">
+    <div class="section-title">§2.4 Arc Length & §2.5 Surface Area of Revolution</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Arc Length Formula</div>
+        <div class="theorem">
+          <div class="theorem-label">Theorem</div>
+          If f′ is continuous on [a, b], the <span class="tt" data-t="Total length of the curve y = f(x) from x = a to x = b">arc length</span> of y = f(x) is:
+        </div>
+        <div class="formula">
+          <span class="formula-label">Arc Length — y = f(x)</span>
+          $$L = \int_a^b \sqrt{1+[f\'(x)]^2}\,dx$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Arc Length — x = g(y)</span>
+          $$L = \int_c^d \sqrt{1+[g\'(y)]^2}\,dy$$
+        </div>
+        <div class="example">
+          <div class="example-label">Example</div>
+          Arc length of y = (2/3)x<sup>3/2</sup> from 0 to 1:<br>
+          f′ = x<sup>1/2</sup>, L = ∫<sub>0</sub><sup>1</sup>√(1+x) dx = [(2/3)(1+x)<sup>3/2</sup>]<sub>0</sub><sup>1</sup> = 2√2/3 − 2/3
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Surface Area of Revolution</div>
+        <div class="theorem">
+          <div class="theorem-label">Theorem</div>
+          Surface area when y = f(x) ≥ 0 is rotated about the x-axis:
+        </div>
+        <div class="formula">
+          <span class="formula-label">Surface Area — About x-axis</span>
+          $$S = 2\pi\int_a^b f(x)\sqrt{1+[f\'(x)]^2}\,dx$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Surface Area — About y-axis</span>
+          $$S = 2\pi\int_a^b x\sqrt{1+[f\'(x)]^2}\,dx$$
+        </div>
+        <div class="note">
+          <div class="note-label">Mnemonic</div>
+          S = 2π · (distance from axis) · (arc length element)<br>
+          The 2πr term is the circumference; √(1+[f′]²)dx is the arc length element.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §2.5 Physical Applications ─── -->
+  <div class="section">
+    <div class="section-title">§2.6–§2.7 Physical Applications: Work & Hydrostatic Force</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Work</div>
+        <div class="formula">
+          <span class="formula-label">Constant Force</span>
+          $$W = F \cdot d$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Variable Force</span>
+          $$W = \int_a^b F(x)\,dx$$
+        </div>
+        <div class="def">
+          <div class="def-label">Hooke's Law (Spring)</div>
+          F = kx, where k is the spring constant, x is displacement from natural length.<br>
+          W = ∫<sub>0</sub><sup>d</sup> kx dx = kd²/2
+        </div>
+        <div class="def">
+          <div class="def-label">Pumping Liquid</div>
+          W = ρg ∫<sub>a</sub><sup>b</sup> A(x) · d(x) dx<br>
+          where ρ = density, g = gravity, A(x) = cross-section area, d(x) = <span class="tt" data-t="Distance the slice at height x must be lifted to reach the top/outlet">lift distance</span> for slice at x.
+        </div>
+        <div class="example">
+          <div class="example-label">Pumping Unit</div>
+          Water: ρg = 62.4 lb/ft³ (imperial) or 9800 N/m³ (SI)
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Hydrostatic Force & Pressure</div>
+        <div class="def">
+          <div class="def-label">Pressure at Depth</div>
+          <span class="tt" data-t="Force per unit area exerted by a fluid; increases linearly with depth">Pressure</span> at depth h: P = ρgh (ρ = fluid density)
+        </div>
+        <div class="formula">
+          <span class="formula-label">Hydrostatic Force on Submerged Plate</span>
+          $$F = \rho g\int_a^b h(x)\,w(x)\,dx$$
+        </div>
+        <div class="note">
+          <div class="note-label">Variables</div>
+          h(x) = depth of strip at position x<br>
+          w(x) = width of strip at position x<br>
+          Integrate perpendicular to the water surface.
+        </div>
+        <div class="example">
+          <div class="example-label">Example Setup</div>
+          A vertical plate submerged with top edge at depth d₁, bottom at d₂:<br>
+          F = ρg ∫<sub>d₁</sub><sup>d₂</sup> x · w(x) dx
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── §2.8 Moments & Center of Mass ─── -->
+  <div class="section">
+    <div class="section-title">§2.8 Moments & Center of Mass</div>
+    <div class="grid grid-2">
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Center of Mass of a Region</div>
+        <div class="def">
+          <div class="def-label">Setup</div>
+          Region R bounded by f(x) ≥ g(x) ≥ 0 on [a, b] with uniform density ρ = 1.
+        </div>
+        <div class="formula">
+          <span class="formula-label">Mass & Moments</span>
+          $$m = \int_a^b [f(x)-g(x)]\,dx$$
+          $$M_x = \tfrac{1}{2}\int_a^b \bigl([f(x)]^2-[g(x)]^2\bigr)\,dx \qquad M_y = \int_a^b x[f(x)-g(x)]\,dx$$
+        </div>
+        <div class="formula">
+          <span class="formula-label">Centroid (Center of Mass)</span>
+          $$\bar{x} = \frac{M_y}{m} \qquad \bar{y} = \frac{M_x}{m}$$
+        </div>
+        <div class="theorem">
+          <div class="theorem-label">Pappus's Theorem</div>
+          Volume of solid of revolution = 2π · ȳ · A (about x-axis)<br>
+          where ȳ is the y-centroid and A is the area of the region.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="dot"></div>Exponential Growth & Decay Models</div>
+        <div class="def">
+          <div class="def-label">Model</div>
+          <span class="tt" data-t="Rate of change proportional to current value; dy/dt = ky has solution y = y₀eᵏᵗ">Exponential growth/decay</span> arises when dy/dt = ky:
+        </div>
+        <div class="formula">
+          <span class="formula-label">General Solution</span>
+          $$y(t) = y_0\,e^{kt}$$
+        </div>
+        <ul class="items">
+          <li><strong>k > 0:</strong> growth (population, compound interest)</li>
+          <li><strong>k < 0:</strong> decay (radioactive decay, cooling)</li>
+        </ul>
+        <div class="formula">
+          <span class="formula-label">Half-life / Doubling Time</span>
+          $$t_{1/2} = \frac{\ln 2}{|k|} \qquad t_d = \frac{\ln 2}{k}\;(k>0)$$
+        </div>
+        <div class="example">
+          <div class="example-label">Carbon-14 Dating</div>
+          k = −0.000121 yr⁻¹ (t<sub>½</sub> ≈ 5730 yr)<br>
+          t = ln(y/y₀) / k = −ln(ratio) / 0.000121
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end .page-body -->
+
+<footer class="chapter-footer">
+  <a href="CH01-Integration-CheatSheet.html">← Integration</a>
+  <span class="footer-center">Calculus Volume 2 · OpenStax · CH2</span>
+  <a href="CH03-Techniques-Integration-CheatSheet.html">Techniques of Integration →</a>
+</footer>
+
+<script>
+(function(){
+  var toc=document.getElementById('page-toc');if(!toc)return;
+  var hdr=toc.querySelector('.toc-hdr');
+  var chev=document.createElement('span');chev.className='toc-chevron';chev.textContent='▾';hdr.appendChild(chev);
+  var body=document.createElement('div');body.className='toc-body';toc.appendChild(body);
+  var STORE='toc-cal2-2';
+  function applyState(c){toc.classList.toggle('toc-collapsed',c);toc.classList.toggle('toc-open',!c);}
+  applyState(localStorage.getItem(STORE)==='1');
+  hdr.addEventListener('click',function(){var c=!toc.classList.contains('toc-collapsed');applyState(c);localStorage.setItem(STORE,c?'1':'0');});
+  var cards=Array.from(document.querySelectorAll('.card'));
+  cards.forEach(function(card,i){
+    var title=card.querySelector('.card-title');if(!title)return;
+    var id='card-'+i;card.id=id;
+    var a=document.createElement('a');a.className='toc-link';a.href='#'+id;
+    a.textContent=title.textContent.trim();
+    a.onclick=function(e){e.preventDefault();card.scrollIntoView({behavior:'smooth',block:'start'});card.classList.remove('card-focus');void card.offsetWidth;card.classList.add('card-focus');setTimeout(function(){card.classList.remove('card-focus');},900);};
+    body.appendChild(a);
+  });
+  var links=Array.from(body.querySelectorAll('.toc-link'));
+  function updateActive(){var mid=window.scrollY+window.innerHeight*0.3;var best=null,bestDist=Infinity;cards.forEach(function(c){if(!c.id)return;var top=c.getBoundingClientRect().top+window.scrollY;var dist=Math.abs(top-mid);if(dist<bestDist){bestDist=dist;best=c.id;}});links.forEach(function(l){l.classList.toggle('active',!!(best&&l.href.endsWith('#'+best)));});}
+  window.addEventListener('scroll',updateActive,{passive:true});updateActive();
+  document.querySelectorAll('.tt').forEach(function(el){
+    el.addEventListener('mouseenter',function(){var r=el.getBoundingClientRect(),w=220,cx=r.left+r.width/2,shift=0;if(cx-w/2<10)shift=10-(cx-w/2);else if(cx+w/2>window.innerWidth-10)shift=window.innerWidth-10-(cx+w/2);el.style.setProperty('--tt-shift',shift+'px');});
+    el.addEventListener('mouseleave',function(){el.style.removeProperty('--tt-shift');});
+  });
+})();
+</script>
+<script src="../katex.js"></script>
+</body>
+</html>
